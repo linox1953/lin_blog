@@ -42,6 +42,7 @@ import { remarkImageGrid } from "./src/plugins/remark-image-grid.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 import { remarkPlantuml } from "./src/plugins/remark-plantuml.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
+import remarkBreaks from 'remark-breaks';
 
 if (process.env.NODE_ENV === "development") {
 	setMaxListeners(20);
@@ -232,6 +233,7 @@ export default defineConfig({
 					? [remarkAdmonitionToBlockquoteCallout]
 					: []),
 				remarkMath,
+				remarkBreaks,
 				remarkReadingTime,
 				remarkImageGrid,
 				remarkExcerpt,
