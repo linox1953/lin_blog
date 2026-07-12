@@ -63,15 +63,6 @@ export const fontsList: FontDefinition[] = [
 			"monospace",
 		],
 	},
-	{
-		name: "Cinzel",
-		cssVariable: "--font-cinzel",
-		provider: "fontsource",
-		weights: ["400", "500", "600", "700"],
-		styles: ["normal"],
-		subsets: ["latin", "cyrillic"],
-		fallbacks: ["serif"],
-	},
 	// ─── 本地字体示例 ───
 	// 使用步骤：
 	// 1. 将 TTF/OTF/WOFF2 字体文件放在 public/assets/fonts/ 目录下
@@ -89,6 +80,19 @@ export const fontsList: FontDefinition[] = [
 			],
 		},
 		fallbacks: ["sans-serif"],
+	},
+	{
+		name: "Cinzel",
+		cssVariable: "--font-cinzel",
+		provider: "local",
+		options: {
+			variants: [
+				{
+					src: ["./public/assets/fonts/subset-Cinzel-Bold.woff2"],
+				},
+			],
+		},
+		fallbacks: ["serif"],
 	},
 ];
 
