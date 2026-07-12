@@ -92,7 +92,6 @@ export const fontsList: FontDefinition[] = [
 				},
 			],
 		},
-		fallbacks: ["serif"],
 	},
 ];
 
@@ -109,7 +108,7 @@ export const fontConfig: FontSelectionConfig = {
 	// 主页横幅主标题字体
 	bannerTitleFont: "--font-cinzel",
 	// 主页横幅副标题字体
-	bannerSubtitleFont: "--font-inter",
+	bannerSubtitleFont: "--font-greatvibes",
 	// 导航栏标题字体
 	navbarTitleFont: "",
 	// 代码块字体（用于代码高亮和等宽字体场景）
@@ -122,5 +121,8 @@ export const fontConfig: FontSelectionConfig = {
 			// 额外包含的字符
 			extraChars: "",
 		},
+		"--font-cinzel": {
+			extraChars: "",
+		}
 	},
 };
