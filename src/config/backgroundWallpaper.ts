@@ -43,18 +43,18 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
-			"assets/images/DesktopWallpaper/开花的杏树.avif",
-			"assets/images/DesktopWallpaper/麦田群鸦.avif",
-			"assets/images/DesktopWallpaper/Wheatfield under Thunderclouds.avif",
-			"assets/images/DesktopWallpaper/星空.avif",
+			"assets/images/DesktopWallpaper/开花的杏树.webp",
+			"assets/images/DesktopWallpaper/麦田群鸦.webp",
+			"assets/images/DesktopWallpaper/Wheatfield under Thunderclouds.webp",
+			"assets/images/DesktopWallpaper/星空.webp",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
 		mobile: [
-			"assets/images/MobileWallpaper/太阳花.avif",
-			"assets/images/MobileWallpaper/开花的小梨树.avif",
-			"assets/images/MobileWallpaper/红色的桃树.avif",
-			"assets/images/MobileWallpaper/BIossoming-chestnut-trees.avif",
+			"assets/images/MobileWallpaper/太阳花.webp",
+			"assets/images/MobileWallpaper/开花的小梨树.webp",
+			"assets/images/MobileWallpaper/红色的桃树.webp",
+			"assets/images/MobileWallpaper/BIossoming-chestnut-trees.webp",
 		],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组）
