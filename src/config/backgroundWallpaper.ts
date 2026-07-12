@@ -8,7 +8,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 推荐只选择自己喜欢的模式并关闭切换功能
 	switchable: false,
 	// 是否启用背景视频播放，配置后将在导航栏显示视频播放按钮
-	playerEnable: true,
+	playerEnable: false,
 	/**
 	 * 背景图片配置
 	 * 图片路径支持三种格式：
@@ -43,12 +43,10 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
-			"assets/images/DesktopWallpaper/d1.avif",
-			"assets/images/DesktopWallpaper/d2.avif",
-			"assets/images/DesktopWallpaper/d3.avif",
-			"assets/images/DesktopWallpaper/d4.avif",
-			"assets/images/DesktopWallpaper/d5.avif",
-			"assets/images/DesktopWallpaper/d6.avif",
+			"assets/images/DesktopWallpaper/开花的杏树.avif",
+			"assets/images/DesktopWallpaper/麦田群鸦.avif",
+			"assets/images/DesktopWallpaper/Wheatfield under Thunderclouds.avif",
+			"assets/images/DesktopWallpaper/星空.avif",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
@@ -86,7 +84,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			titleSize: "3.8rem",
 			// 主页横幅副标题
 			subtitle: [
-				"In DoubleHighC we trust",
+				"Lin Lijian",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",
@@ -121,7 +119,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 				mobile: false,
 			},
 			// 是否允许用户通过控制面板切换水波纹动画
-			switchable: false,
+			switchable: true,
 		},
 		// 渐变过渡效果配置，当水波纹关闭时自动启用，提供壁纸底部到背景色的平滑过渡
 		gradient: {
@@ -132,7 +130,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 				mobile: true,
 			},
 			// 渐变高度
-			height: "10%",
+			height: "5%",
 			// 是否允许用户通过控制面板切换渐变过渡
 			switchable: true,
 		},
