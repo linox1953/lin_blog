@@ -788,7 +788,7 @@ const hasMultipleImages =
     <div class={`wallpaper-gradient absolute bottom-0 left-0 w-full pointer-events-none
         ${!gradientEnabledOnMobile ? 'hidden' : ''} ${!gradientEnabledOnDesktop ? 'md:hidden' : ''} ${gradientEnabledOnDesktop ? 'md:block' : ''}`}
         id="wallpaper-gradient"
-        style={`height: ${gradientHeight}; background: linear-gradient(to bottom, transparent, var(--page-bg));`}>
+        style={`height: ${gradientHeight}; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--page-bg) 70%, transparent));`}>
     </div>
     ) : null}
 </div>
