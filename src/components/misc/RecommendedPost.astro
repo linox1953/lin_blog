@@ -29,9 +29,6 @@ const noRandomPostsText = i18n(I18nKey.noRandomPosts);
       <span class="text-base font-bold text-black/75 dark:text-white/75 transition">
         {i18n(I18nKey.relatedPosts)}
       </span>
-      <span class="ml-auto text-xs px-2 py-0.5 rounded-full bg-(--btn-regular-bg) text-(--btn-content) transition">
-        {i18n(I18nKey.smartRecommend)}
-      </span>
     </div>
     {relatedPosts.length > 0 ? (
       relatedPosts.map((post, idx) => (
@@ -82,9 +79,6 @@ const noRandomPostsText = i18n(I18nKey.noRandomPosts);
       />
       <span class="text-base font-bold text-black/75 dark:text-white/75 transition">
         {i18n(I18nKey.randomPosts)}
-      </span>
-      <span class="ml-auto text-xs px-2 py-0.5 rounded-full bg-(--btn-regular-bg) text-(--btn-content) transition">
-        {i18n(I18nKey.randomRecommend)}
       </span>
     </div>
     <div
