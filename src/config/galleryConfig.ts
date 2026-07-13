@@ -24,6 +24,15 @@ export const galleryConfig: GalleryConfig = {
 			date: "2026-07-13",
 			tags: ["林力建", "猪八戒", "HighC", "美声"],
 		},
+		{
+			id: "cat",
+			name: "老猫",
+			cover: "/gallery/cat/IMG_20260619_145247.avif",
+			description: "老猫的照片",
+			location: "徐家湾",
+			date: "2026-07-13",
+			tags: ["猫", "狗", "蠢猪笨牛", "宠物"],
+		},
 	],
 
 	// 瀑布流最小列宽(px)，浏览器根据容器宽度自动计算列数，默认 240
