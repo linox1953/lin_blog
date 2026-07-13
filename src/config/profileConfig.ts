@@ -12,7 +12,7 @@ export const profileConfig: ProfileConfig = {
 	name: "林力建",
 
 	// 个人签名
-	bio: "卡鲁索",
+	bio: "世界一流歌唱家",
 
 	// 链接配置
 	// 已经预装的图标集：fa7-brands，fa7-regular，fa7-solid，material-symbols，simple-icons
