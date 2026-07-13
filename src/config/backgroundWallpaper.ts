@@ -43,10 +43,10 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
-			"assets/images/DesktopWallpaper/开花的杏树.avif",
-			"assets/images/DesktopWallpaper/麦田群鸦.avif",
-			"assets/images/DesktopWallpaper/Houses_at_Auvers.avif",
-			"assets/images/DesktopWallpaper/星空.avif",
+			"/assets/images/DesktopWallpaper/w1.avif",
+			"/assets/images/DesktopWallpaper/w2.avif",
+			"/assets/images/DesktopWallpaper/w3.avif",
+			"/assets/images/DesktopWallpaper/w4.avif",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
@@ -67,7 +67,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 横幅壁纸和全屏壁纸共享配置
 	common: {
 		// 壁纸遮罩暗度，让横幅文字显示更清晰，0-1之间，值越大越暗
-		dimOpacity: 0.2,
+		dimOpacity: 0.3,
 		// 多视频播放模式："order" 顺序循环，"random" 随机切换（仅当 playerUrl 为数组时生效）
 		playerMode: "random",
 		// 主页横幅文字
