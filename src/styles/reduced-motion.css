@@ -1,0 +1,11 @@
+/* 尊重用户"减弱动态效果"系统偏好 — 全局禁用所有动画和过渡 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

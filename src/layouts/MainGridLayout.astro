@@ -413,6 +413,13 @@ const hasMultipleImages =
             var FADE_MS = 800;
             var transitioning = false;
 
+            // 移动端优化：延长切换间隔，kenburns 降级为 fade
+            var isMobile = window.innerWidth < 768;
+            if (isMobile) {
+              interval = Math.max(interval, 8000);
+              if (effect === 'kenburns') effect = 'fade';
+            }
+
             // 创建过渡遮罩（用于 kenburns 效果的 LQIP 桥接）
             var overlay = null;
             if (effect === 'kenburns') {
@@ -585,6 +592,15 @@ const hasMultipleImages =
                 } else {
                     stopAutoPlay();
                 }
+            });
+
+            // 页面不可见时暂停轮播，切回时恢复
+            document.addEventListener('visibilitychange', function() {
+              if (document.hidden) {
+                stopAutoPlay();
+              } else if (isCarouselEnabled() && isBannerWallpaperMode()) {
+                startAutoPlay();
+              }
             });
 
             // 随机首张
