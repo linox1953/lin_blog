@@ -52,6 +52,12 @@ html {
     scroll-behavior: smooth;
 }
 
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
 /* 页面顶部渐变高光效果 */
 .top-gradient-highlight {
     position: fixed;
