@@ -319,6 +319,27 @@ export default defineConfig({
 					}
 					warn(warning);
 				},
+				output: {
+					manualChunks(id) {
+						// Swup 生态：合并所有 swup 相关模块减少请求链
+						if (id.includes("node_modules/@swup") || id.includes("node_modules/swup") || id.includes("preload-helper")) {
+							return "swup";
+						}
+						// Navbar Svelte islands：合并导航栏交互组件
+						if (id.includes("Search.svelte") ||
+							id.includes("LightDarkSwitch.svelte") ||
+							id.includes("DisplaySettingsIntegrated.svelte") ||
+							id.includes("Navbar.astro")) {
+							return "navbar";
+						}
+						// Astro + Svelte 框架运行时
+						if (id.includes("node_modules/astro/dist") ||
+							id.includes("node_modules/svelte") ||
+							id.includes("rolldown-runtime")) {
+							return "framework";
+						}
+					},
+				},
 			},
 			// CSS 优化
 			cssCodeSplit: true,
