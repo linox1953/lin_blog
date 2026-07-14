@@ -370,8 +370,11 @@ if (document.readyState === 'loading') {
 {
     import.meta.env.PROD && (
         <script is:inline data-swup-ignore-script define:vars={{ scriptUrl: url('/pagefind/pagefind.js') }}>
-            {/* 你的 loadPagefind 函数的完整内容放在这里 */}
+            let _pagefindLoaded = false;
+
             async function loadPagefind() {
+                if (_pagefindLoaded) return;
+                _pagefindLoaded = true;
                 try {
                     const response = await fetch(scriptUrl, { method: 'HEAD' });
                     if (!response.ok) {
@@ -395,11 +398,26 @@ if (document.readyState === 'loading') {
                 }
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', loadPagefind);
-            } else {
-                loadPagefind();
+            // 按需加载：在用户首次与搜索交互时才加载 pagefind
+            window.loadPagefind = loadPagefind;
+
+            function triggerOnSearchIntent(e) {
+                const target = e.target;
+                if (
+                    target.closest?.('#search-panel') ||
+                    target.closest?.('[data-search-trigger]') ||
+                    (target.tagName === 'INPUT' && target.closest?.('[id*="search"]'))
+                ) {
+                    loadPagefind().then(() => {
+                        // 加载完成后移除监听器
+                        document.removeEventListener('focusin', triggerOnSearchIntent);
+                        document.removeEventListener('click', triggerOnSearchIntent);
+                    });
+                }
             }
+
+            document.addEventListener('focusin', triggerOnSearchIntent);
+            document.addEventListener('click', triggerOnSearchIntent);
         </script>
     )
 }
