@@ -15,8 +15,7 @@ export const siteConfig: SiteConfig = {
 	site_url: "https://blog.doublehighc.top",
 
 	// 站点描述
-	description:
-		"林力建大师的个人博客",
+	description: "林力建大师的个人博客",
 
 	// 站点关键词
 	keywords: [
