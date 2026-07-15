@@ -97,6 +97,14 @@ export function getImageQuality(): number {
 	return siteConfig.imageOptimization?.quality ?? 80;
 }
 
+export function getDesktopWallpaperQuality(): number {
+	return siteConfig.imageOptimization?.desktopWallpaperQuality ?? 70;
+}
+
+export function getMobileWallpaperQuality(): number {
+	return siteConfig.imageOptimization?.mobileWallpaperQuality ?? 60;
+}
+
 /**
  * 获取图片回退格式
  */
