@@ -1,37 +1,36 @@
-## Type of change
+## 变更类型
 
-- [ ] Bug fix (a non-breaking change that fixes an issue)
-- [ ] New feature (a non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Other (please describe):
+- [ ] 修复 Bug（非破坏性变更，修复了一个问题）
+- [ ] 新功能（非破坏性变更，添加了功能）
+- [ ] 破坏性变更（修复或功能会导致现有功能无法按预期工作）
+- [ ] 其他（请说明）：
 
-## Checklist
+## 清单
 
-- [ ] I have read the [**CONTRIBUTING**](https://github.com/CuteLeaf/Firefly/blob/master/CONTRIBUTING.md) document.
-- [ ] I have checked to ensure that this Pull Request is not for personal changes.
-- [ ] I have performed a self-review of my own code.
-- [ ] My changes generate no new warnings.
+- [ ] 我已确认此 Pull Request 并非用于个人定制修改。
+- [ ] 我已对自己的代码进行了自查。
+- [ ] 我的更改不会产生新的警告。
 
-## Related Issue
+## 关联 Issue
 
-<!-- Please link to the issue that this pull request addresses. e.g. #123 -->
-
-
-## Changes
-
-<!-- Please describe the changes you made in this pull request. -->
+<!-- 请链接到此 Pull Request 所解决的 Issue -->
 
 
-## How To Test
+## 更改内容
 
-<!-- Please describe how you tested your changes. -->
-
-
-## Screenshots (if applicable)
-
-<!-- If you made any UI changes, please include screenshots. -->
+<!-- 请描述你在此 Pull Request 中所做的更改。 -->
 
 
-## Additional Notes
+## 如何测试
 
-<!-- Any additional information that you want to share with the reviewer. -->
+<!-- 请描述你是如何测试这些更改的。 -->
+
+
+## 截图
+
+<!-- 如果你进行了任何 UI 更改，请附上截图。 -->
+
+
+## 附加说明
+
+<!-- 任何你想与审查者分享的额外信息。 -->
