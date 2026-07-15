@@ -123,6 +123,6 @@ export const fontConfig: FontSelectionConfig = {
 		},
 		"--font-cinzel": {
 			extraChars: "",
-		}
+		},
 	},
 };
