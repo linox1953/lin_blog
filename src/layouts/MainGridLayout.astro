@@ -27,7 +27,10 @@ import {
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import { formatDateToYYYYMMDD } from "@/utils/date-utils";
-import { getImageQuality } from "@/utils/image-utils";
+import {
+	getDesktopWallpaperQuality,
+	getMobileWallpaperQuality,
+} from "@/utils/image-utils";
 import { getBackgroundImages, isHomePage } from "@/utils/layout-utils";
 import {
 	generateGridClasses,
@@ -260,8 +263,8 @@ const navbarWidthFull = siteConfig.navbar.widthFull ?? false;
 const stickyNavbar = siteConfig.navbar.stickyNavbar ?? false;
 
 // 获取图片质量配置
-const configQuality = getImageQuality();
-const mobileQuality = Math.round(configQuality * 0.9);
+const mobileQuality = getMobileWallpaperQuality();
+const desktopQuality = getDesktopWallpaperQuality();
 const bannerCarouselEnabledDefault =
 	backgroundWallpaper.common?.carousel?.enable ?? false;
 const bannerCarouselSwitchable =
@@ -358,7 +361,7 @@ const hasMultipleImages =
                     sizes="100vw"
                     loading={index === 0 ? "eager" : "lazy"}
                     fetchpriority={index === 0 ? "high" : "low"}
-                    quality={configQuality}
+                    quality={desktopQuality}
                 />
             </div>
         ))}
@@ -393,7 +396,7 @@ const hasMultipleImages =
                     sizes="100vw"
                     loading="eager"
                     fetchpriority="high"
-                    quality={configQuality}
+                    quality={desktopQuality}
                 />
             </div>
         )}
