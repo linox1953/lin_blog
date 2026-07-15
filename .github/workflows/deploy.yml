@@ -39,6 +39,9 @@ jobs:
       
       - name: Build site
         run: pnpm run build
+        env:
+          ASTRO_BASE: /lin_blog/
+          ASTRO_SITE: https://linox1953.github.io
 
       - name: Create .nojekyll file
         run: touch dist/.nojekyll

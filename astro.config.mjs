@@ -24,7 +24,14 @@ import remarkAdmonitionToBlockquoteCallout from "remark-admonition-to-blockquote
 import remarkDirective from "remark-directive"; /* Handle directives */
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
-import { expressiveCodeConfig, fontConfig, fontsList, mermaidConfig, plantumlConfig, siteConfig } from "./src/config";
+import {
+	expressiveCodeConfig,
+	fontConfig,
+	fontsList,
+	mermaidConfig,
+	plantumlConfig,
+	siteConfig,
+} from "./src/config";
 import { collectUsedFontCssVars } from "./src/utils/fontHelper";
 import I18nKey from "./src/i18n/i18nKey";
 import { i18n } from "./src/i18n/translation";
@@ -43,7 +50,7 @@ import { remarkImageGrid } from "./src/plugins/remark-image-grid.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 import { remarkPlantuml } from "./src/plugins/remark-plantuml.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import remarkBreaks from 'remark-breaks';
+import remarkBreaks from "remark-breaks";
 
 if (process.env.NODE_ENV === "development") {
 	setMaxListeners(20);
@@ -57,9 +64,9 @@ const adapter = process.env.CF_WORKERS
 
 // https://astro.build/config
 export default defineConfig({
-	site: siteConfig.site_url,
+	site: process.env.ASTRO_SITE || siteConfig.site_url,
 
-	base: "/",
+	base: process.env.ASTRO_BASE || "/",
 	trailingSlash: "always",
 
 	// 字体配置 - 只加载实际使用的字体，跳过未引用的以加快构建
@@ -73,13 +80,26 @@ export default defineConfig({
 			.map((f) => {
 				let provider;
 				switch (f.provider) {
-					case "google": provider = fontProviders.google(); break;
-					case "fontsource": provider = fontProviders.fontsource(); break;
-					case "local": provider = fontProviders.local(); break;
-					case "bunny": provider = fontProviders.bunny(); break;
-					case "fontshare": provider = fontProviders.fontshare(); break;
-					case "npm": provider = fontProviders.npm(); break;
-					default: provider = f.provider;
+					case "google":
+						provider = fontProviders.google();
+						break;
+					case "fontsource":
+						provider = fontProviders.fontsource();
+						break;
+					case "local":
+						provider = fontProviders.local();
+						break;
+					case "bunny":
+						provider = fontProviders.bunny();
+						break;
+					case "fontshare":
+						provider = fontProviders.fontshare();
+						break;
+					case "npm":
+						provider = fontProviders.npm();
+						break;
+					default:
+						provider = f.provider;
 				}
 				return { ...f, provider };
 			});
@@ -230,7 +250,8 @@ export default defineConfig({
 	markdown: {
 		processor: unified({
 			remarkPlugins: [
-				...(siteConfig.post.rehypeCallouts.enablePythonMarkdownAdmonitions !== false
+				...(siteConfig.post.rehypeCallouts.enablePythonMarkdownAdmonitions !==
+				false
 					? [remarkAdmonitionToBlockquoteCallout]
 					: []),
 				remarkMath,
@@ -327,20 +348,28 @@ export default defineConfig({
 				output: {
 					manualChunks(id) {
 						// Swup 生态：合并所有 swup 相关模块减少请求链
-						if (id.includes("node_modules/@swup") || id.includes("node_modules/swup") || id.includes("preload-helper")) {
+						if (
+							id.includes("node_modules/@swup") ||
+							id.includes("node_modules/swup") ||
+							id.includes("preload-helper")
+						) {
 							return "swup";
 						}
 						// Navbar Svelte islands：合并导航栏交互组件
-						if (id.includes("Search.svelte") ||
+						if (
+							id.includes("Search.svelte") ||
 							id.includes("LightDarkSwitch.svelte") ||
 							id.includes("DisplaySettingsIntegrated.svelte") ||
-							id.includes("Navbar.astro")) {
+							id.includes("Navbar.astro")
+						) {
 							return "navbar";
 						}
 						// Astro + Svelte 框架运行时
-						if (id.includes("node_modules/astro/dist") ||
+						if (
+							id.includes("node_modules/astro/dist") ||
 							id.includes("node_modules/svelte") ||
-							id.includes("rolldown-runtime")) {
+							id.includes("rolldown-runtime")
+						) {
 							return "framework";
 						}
 					},
@@ -353,4 +382,3 @@ export default defineConfig({
 		},
 	},
 });
-
