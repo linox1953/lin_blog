@@ -1,4 +1,71 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
-/gallery/*
+
+/assets/*
+  Cache-Control: public, max-age=2592000
+/favicon/*
+  Cache-Control: public, max-age=14400
+
+/gallery/*.avif
   Cache-Control: public, max-age=31536000
+/gallery/*.webp
+  Cache-Control: public, max-age=31536000
+
+/gallery/
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/gallery/cat/
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/gallery/linlijian/
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+
+/gallery/*.html
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+
+/api/*
+  Cache-Control: no-store
+
+/search/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/index.html
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+
+/pagefind/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+
+/about/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/anime/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/archive/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/bangumi/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/categories/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/friends/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/guestbook/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/posts/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/sponsor/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+/tags/*
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+
+/rss/*
+  Cache-Control: public, max-age=3600
+/rss.xml
+  Cache-Control: public, max-age=3600
+/anime-list.json
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=86400
+/sitemap*.xml
+  Cache-Control: public, max-age=3600
+/404.html
+  Cache-Control: public, max-age=86400
