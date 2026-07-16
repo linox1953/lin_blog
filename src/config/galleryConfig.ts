@@ -27,7 +27,8 @@ export const galleryConfig: GalleryConfig = {
 		{
 			id: "cat",
 			name: "老猫",
-			cover: "/gallery/cat/IMG_20260619_145247.avif",
+			cover:
+				"/gallery/cat/IMG_20260619_145247_459217dda98ec357b9805d1bf319c758.avif",
 			description: "老猫的照片",
 			location: "徐家湾",
 			date: "2026-07-13",
