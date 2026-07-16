@@ -132,12 +132,3 @@ export function shouldAddNoReferrer(urlStr: string): boolean {
 		return false;
 	}
 }
-
-export function getWallpaperIndexByDate(
-	startDate: string,
-	totalImages: number,
-): number {
-	const startMs = Date.parse(`${startDate}T00:00:00+08:00`);
-	const diffDays = Math.floor((Date.now() - startMs) / 86_400_000);
-	return diffDays % totalImages;
-}
