@@ -1,0 +1,14 @@
+name: Daily deploy to Cloudflare Pages
+
+on:
+  schedule:
+    - cron: '0 16 * * *' # 每天 UTC 时间 16 点运行, 即北京时间 0 点
+  workflow_dispatch:
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Workers deploy hook
+        run: |
+          curl -X POST "${{ secrets.CF_WORKERS_DEPLOY_HOOK }}"
