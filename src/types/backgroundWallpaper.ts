@@ -14,6 +14,7 @@ export type BackgroundWallpaperConfig = {
 	common?: {
 		dimOpacity?: number; // 横幅文字遮罩暗度，0-1之间，值越大越暗，默认0.15
 		playerMode?: "order" | "random"; // 多视频播放模式："order" 顺序循环（默认），"random" 随机切换
+		dailyImg?: boolean;
 		homeText?: {
 			enable: boolean; // 是否在首页显示自定义文字（全局开关）
 			switchable?: boolean; // 是否允许用户通过控制面板切换横幅标题显示
@@ -55,10 +56,10 @@ export type BackgroundWallpaperConfig = {
 		};
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享
 		carousel?: {
-			enable: boolean; // 是否启用壁纸轮播
+			enable: false; // 是否启用壁纸轮播
 			interval?: number; // 轮播间隔时间，单位毫秒
 			transitionEffect?: "fade" | "zoom" | "slide" | "kenburns"; // 过渡效果: 'fade' 渐变 | 'zoom' 缩放 | 'slide' 滑动 | 'kenburns' 旋转木马
-			switchable?: boolean; // 是否允许用户通过控制面板切换壁纸轮播
+			switchable?: false; // 是否允许用户通过控制面板切换壁纸轮播
 		};
 	};
 

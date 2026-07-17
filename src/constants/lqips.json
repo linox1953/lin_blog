@@ -13,14 +13,8 @@
   "src:assets/images/MobileWallpaper/开花的小梨树.avif": "79734f888766918a65",
   "src:assets/images/MobileWallpaper/太阳花.avif": "b4a332bca731ac9720",
   "src:assets/images/MobileWallpaper/Blossoming-chestnut-trees.avif": "48785f458578578c7e",
-  "src:assets/images/DesktopWallpaper/w4.avif": "bbb69ab1ae95afac94",
   "src:assets/images/DesktopWallpaper/w3.avif": "6e888473847a77947f",
-  "src:assets/images/DesktopWallpaper/w2.avif": "958d82878b7f8a7b5c",
   "src:assets/images/DesktopWallpaper/w1.avif": "937d60907867999c8a",
-  "src:assets/images/DesktopWallpaper/w4.jpg": "bab59ab4b198b0ad95",
-  "src:assets/images/DesktopWallpaper/w3.jpg": "6e888473847b769380",
-  "src:assets/images/DesktopWallpaper/w2.jpg": "948d8388897b8f8061",
-  "src:assets/images/DesktopWallpaper/w1.jpg": "937e619077679b9b89",
   "public:gallery/cat/Screenshot_20260405_151110_60d01b57edc8ee2cebaa1200f11a6f0f.avif": "87524c7b78726a6863",
   "public:gallery/cat/IMG_20260712_182935_24ffbf233e6ae4d495e6bccb0df7196c.avif": "8e7b6e42201d776652",
   "public:gallery/cat/IMG_20260623_113721_7a686b0fa2aeb9031be8a8eecab1920b.avif": "7d7a5e78745eeae6e3",
@@ -42,5 +36,7 @@
   "public:gallery/cat/IMG_20260406_163609_620d103cd509449a21e7eac08673dff4.avif": "90887ca1a298867a78",
   "public:gallery/cat/IMG_20260220_173400_4cbf55f89ce2c12cfd32932a8af648d3.avif": "736c6bbdbabb83837f",
   "public:gallery/cat/IMG_20260206_103856_152ff787873ef47f8a978f929e8e21c1.avif": "9d8771d7ab9ab4a28b",
-  "public:gallery/cat/IMG_20260127_104936_2dc7cbc6b56ce8cb4cbf7eb9a1736c4a.avif": "674d4a84665d907771"
+  "public:gallery/cat/IMG_20260127_104936_2dc7cbc6b56ce8cb4cbf7eb9a1736c4a.avif": "674d4a84665d907771",
+  "src:assets/images/DesktopWallpaper/w6.avif": "82a5a081a49c6f928d",
+  "src:assets/images/DesktopWallpaper/w5.avif": "566b6d5a737c977e25"
 }

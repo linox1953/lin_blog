@@ -70,6 +70,8 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		dimOpacity: 0.2,
 		// 多视频播放模式："order" 顺序循环，"random" 随机切换（仅当 playerUrl 为数组时生效）
 		playerMode: "random",
+		// 是否启用每日壁纸
+		dailyImg: true,
 		// 主页横幅文字
 		homeText: {
 			// 是否启用主页横幅文字
@@ -132,7 +134,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		},
 		// 壁纸轮播配置，横幅壁纸和全屏壁纸共享，仅在配置多张图片时生效
 		carousel: {
-			// 是否启用壁纸轮播；关闭时保持每次刷新随机显示一张
+			// 是否启用壁纸轮播；
 			enable: false,
 			// 轮播切换间隔（毫秒）
 			interval: 5000,
