@@ -44,9 +44,9 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
 			"assets/images/DesktopWallpaper/w1.avif",
-			"assets/images/DesktopWallpaper/w2.avif",
 			"assets/images/DesktopWallpaper/w3.avif",
-			"assets/images/DesktopWallpaper/w4.avif",
+			"assets/images/DesktopWallpaper/w5.avif",
+			"assets/images/DesktopWallpaper/w6.avif",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
@@ -67,7 +67,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 横幅壁纸和全屏壁纸共享配置
 	common: {
 		// 壁纸遮罩暗度，让横幅文字显示更清晰，0-1之间，值越大越暗
-		dimOpacity: 0.3,
+		dimOpacity: 0.2,
 		// 多视频播放模式："order" 顺序循环，"random" 随机切换（仅当 playerUrl 为数组时生效）
 		playerMode: "random",
 		// 主页横幅文字
@@ -115,7 +115,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 				mobile: false,
 			},
 			// 是否允许用户通过控制面板切换水波纹动画
-			switchable: true,
+			switchable: false,
 		},
 		// 渐变过渡效果配置，当水波纹关闭时自动启用，提供壁纸底部到背景色的平滑过渡
 		gradient: {
@@ -139,7 +139,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 过渡效果: 'fade' 渐变 | 'zoom' 缩放 | 'slide' 滑动 | 'kenburns' 旋转木马
 			transitionEffect: "zoom",
 			// 是否允许用户通过控制面板切换壁纸轮播
-			switchable: true,
+			switchable: false,
 		},
 	},
 	// Banner模式特有配置
