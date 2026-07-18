@@ -1,0 +1,13 @@
+name: Daily Deploy to Vercel
+
+on:
+  schedule:
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Vercel
+        run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
