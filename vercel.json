@@ -5,7 +5,7 @@
 	"framework": "astro",
 	"headers": [
 		{
-			"source": "/(.*)",
+			"source": "/:path*",
 			"headers": [
 				{
 					"key": "Cache-Control",
@@ -30,7 +30,7 @@
 			]
 		},
 		{
-			"source": "/_astro/(.*)",
+			"source": "/_astro/:path*",
 			"headers": [
 				{
 					"key": "Cache-Control",
@@ -39,7 +39,7 @@
 			]
 		},
 		{
-			"source": "/assets/(.*)",
+			"source": "/assets/:path*",
 			"headers": [
 				{
 					"key": "Cache-Control",
@@ -48,7 +48,7 @@
 			]
 		},
 		{
-			"source": "/gallery/(.*\\.(avif|webp|png|jpg|jpeg|gif|svg))",
+			"source": "/gallery/:path*.avif",
 			"headers": [
 				{
 					"key": "Cache-Control",
@@ -57,11 +57,20 @@
 			]
 		},
 		{
-			"source": "/api/(.*)",
+			"source": "/gallery/:path*.webp",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=86400, stale-while-revalidate=31536000"
+				}
+			]
+		},
+		{
+			"source": "/api/:path*",
 			"headers": [{ "key": "Cache-Control", "value": "no-store" }]
 		},
 		{
-			"source": "/search/(.*)",
+			"source": "/search/:path*",
 			"headers": [
 				{
 					"key": "Cache-Control",
@@ -70,15 +79,27 @@
 			]
 		},
 		{
-			"source": "/rss/(.*)",
+			"source": "/rss/:path*",
 			"headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
 		},
 		{
-			"source": "/(rss\\.xml|anime-list\\.json|sitemap.*\\.xml)",
+			"source": "/rss.xml",
 			"headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
 		},
 		{
-			"source": "/(robots\\.txt|404\\.html)",
+			"source": "/anime-list.json",
+			"headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+		},
+		{
+			"source": "/sitemap:path*.xml",
+			"headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+		},
+		{
+			"source": "/robots.txt",
+			"headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+		},
+		{
+			"source": "/404.html",
 			"headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
 		}
 	],
