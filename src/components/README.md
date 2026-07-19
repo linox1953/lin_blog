@@ -57,7 +57,6 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 - `CoverImage.astro` - 封面图组件（支持本地图片和随机图API）
 - `ImageWrapper.astro` - 图片包装器（支持本地和远程图片）
 - `Markdown.astro` - Markdown 内容样式包装器
-- `PioMessageBox.astro` - 消息框组件（Live2D/Spine 消息显示）
 
 **分页组件**
 - `ClientPagination.svelte` - 客户端分页（JavaScript 控制）
@@ -76,7 +75,6 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 - `SidebarTOC.astro` - 侧边栏目录组件
 - `SiteInfo.astro` - 站点信息组件
 - `SiteStats.astro` - 站点统计组件
-- `SpineModel.astro` - Spine 看板娘组件
 - `Tags.astro` - 标签组件
 
 ### ✨ features/ - 全局功能特效组件
@@ -92,10 +90,8 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 **功能组件**
 - `EncryptedContent.astro` - 加密内容组件
 - `EncryptedPost.astro` - 加密文章组件
-- `Live2DWidget.astro` - Live2D 看板娘组件
 - `MusicPlayer.astro` - 音乐播放器 UI 视图控制器（纯 UI，委托 MusicManager 进行播放控制）
 - `SakuraEffect.astro` - 樱花飘落特效
-- `SpineModel.astro` - Spine 看板娘组件
 - `TypewriterText.astro` - 打字机动画效果
 
 ### 📃 pages/ - 页面特定组件
@@ -147,14 +143,14 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 
 ## 🗂️ 分类原则
 
-| 分类 | 用途 | 特点 |
-|------|------|------|
-| **layout/** | 页面布局和结构 | 决定整体页面框架 |
-| **controls/** | 导航和交互 | 用户交互功能 |
-| **common/** | 通用可复用组件 | 跨多个页面/组件使用 |
-| **widget/** | 侧边栏小部件 | 侧边栏特定组件 |
-| **features/** | 全局功能特效 | 全局加载的增强功能 |
-| **pages/** | 页面特定组件 | 仅在特定页面使用 |
-| **comment/** | 评论系统 | 第三方服务集成 |
-| **analytics/** | 数据统计 | 分析和统计服务 |
-| **misc/** | 工具和辅助 | 其他杂项功能 |
+| 分类           | 用途           | 特点                |
+| -------------- | -------------- | ------------------- |
+| **layout/**    | 页面布局和结构 | 决定整体页面框架    |
+| **controls/**  | 导航和交互     | 用户交互功能        |
+| **common/**    | 通用可复用组件 | 跨多个页面/组件使用 |
+| **widget/**    | 侧边栏小部件   | 侧边栏特定组件      |
+| **features/**  | 全局功能特效   | 全局加载的增强功能  |
+| **pages/**     | 页面特定组件   | 仅在特定页面使用    |
+| **comment/**   | 评论系统       | 第三方服务集成      |
+| **analytics/** | 数据统计       | 分析和统计服务      |
+| **misc/**      | 工具和辅助     | 其他杂项功能        |

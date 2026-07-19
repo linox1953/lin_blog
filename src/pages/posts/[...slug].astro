@@ -20,16 +20,13 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import CoverImage from "@/components/common/CoverImage.astro";
 import PostMetadata from "@/components/layout/PostMeta.astro";
-import RecommendedPost from "@/components/misc/RecommendedPost.astro";
+// import RecommendedPost from "@/components/misc/RecommendedPost.astro";
 import SharePoster from "@/components/misc/SharePoster.svelte";
 import { coverImageConfig } from "@/config/coverImageConfig";
 import { licenseConfig } from "@/config/licenseConfig";
 import { profileConfig } from "@/config/profileConfig";
 import { siteConfig } from "@/config/siteConfig";
 import { sponsorConfig } from "@/config/sponsorConfig";
-import "@/styles/post-only.css";
-import "@/styles/markdown-extend.styl";
-import "@rehype-callouts-theme";
 import { formatDateToYYYYMMDD } from "@/utils/date-utils";
 import { getApiUrlList, processCoverImageSync } from "@/utils/image-utils";
 import { url } from "@/utils/url-utils";
@@ -131,7 +128,7 @@ const jsonLd = {
 	// TODO include cover image here
 };
 
-const relatedPosts = await getRelatedPosts(entry, 5);
+// const relatedPosts = await getRelatedPosts(entry, 5);
 ---
 
 <MainGridLayout
@@ -544,7 +541,7 @@ const relatedPosts = await getRelatedPosts(entry, 5);
     </a>
   </div>
 
-  <RecommendedPost relatedPosts={relatedPosts} currentPostId={entry.id} />
+  <!-- <RecommendedPost relatedPosts={relatedPosts} currentPostId={entry.id} /> -->
 
   <!-- 评论 -->
   {entry.data.comment && !entry.data.password && <Comment post={entry} />}

@@ -1,3 +1,0 @@
-/* 文章页专用样式 — 仅在 posts/[...slug].astro 中导入 */
-@import './markdown.css';
-@import './expressive-code.css';
