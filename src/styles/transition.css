@@ -3,66 +3,68 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Swup Page Transitions
+   0. 无障碍访问 (Accessibility) - 减弱动态效果
    -------------------------------------------------------------------------- */
-
-/* Main Content Transition */
-.transition-main {
-    transition: 
-        opacity 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
-/* Leaving Animation */
+/* --------------------------------------------------------------------------
+   1. Swup Page Transitions (统一时间，明确起点与终点)
+   -------------------------------------------------------------------------- */
+:root {
+    --swup-duration: 250ms; 
+    --swup-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --swup-ease-leave: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+/* 基础状态 (进入后的最终状态) */
+.transition-main,
 .transition-leaving {
-    transition:
-        transform 120ms cubic-bezier(0.55, 0.055, 0.675, 0.19),
-        opacity 120ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--swup-duration) var(--swup-ease),
+                transform var(--swup-duration) var(--swup-ease);
+    will-change: opacity, transform;
 }
 
-/* State: Changing (Swup) */
-html.is-changing .transition-main {
-    transition: 
-        opacity 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        transform 120ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-html.is-leaving .transition-main {
-    transition: 
-        opacity 120ms cubic-bezier(0.55, 0.055, 0.675, 0.19),
-        transform 120ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
-}
-
-/* State: Animating (Entering) */
-html.is-animating .transition-main {
-    opacity: 0;
-    transform: translateY(2rem);
-}
-
-/* State: Leaving */
+/* Swup 状态：离开时 (向上淡出) */
+html.is-animating.is-leaving .transition-main,
 html.is-animating.is-leaving .transition-leaving {
-    transform: translateY(-2rem);
     opacity: 0;
+    transform: translateY(-1.5rem);
+    transition-timing-function: var(--swup-ease-leave);
 }
 
-/* Swup Fade Fallback */
-html.is-changing .transition-swup-fade {
-    transition: all 120ms ease-out;
+/* Swup 状态：进入前 (此时 DOM 已替换，处于动画起始状态：在下方隐藏) */
+html.is-animating:not(.is-leaving) .transition-main {
+    opacity: 0;
+    transform: translateY(1.5rem);
 }
 
+/* Swup Fade 备用过渡 */
+.transition-swup-fade {
+    opacity: 1;
+    transition: opacity var(--swup-duration) ease-out;
+}
 html.is-animating .transition-swup-fade {
     opacity: 0;
-    transform: translateY(1rem);
 }
 
 /* --------------------------------------------------------------------------
    2. Keyframes
    -------------------------------------------------------------------------- */
-
 @keyframes fade-in-up {
     from {
         opacity: 0;
-        transform: translateY(2rem);
+        transform: translateY(1.5rem); /* 缩小一点位移，2rem有时显得过于夸张 */
     }
     to {
         opacity: 1;
@@ -71,61 +73,104 @@ html.is-animating .transition-swup-fade {
 }
 
 /* --------------------------------------------------------------------------
-   3. Onload Animations
+   3. 页面初次加载的入场动画
    -------------------------------------------------------------------------- */
-
-.onload-animation {
+.onload-animation,
+#navbar,
+#sidebar,
+#content-wrapper,
+.footer,
+#banner-credit {
+    /* 默认不透明度 0，但加上 pointer-events: none 防止未加载完时误触 */
     opacity: 0;
-    animation: fade-in-up 120ms ease-out forwards;
+    animation: fade-in-up 400ms var(--swup-ease) forwards;
 }
 
-/* 渐进式动画延迟 */
-.onload-animation:nth-child(1) { animation-delay: 0ms; }
-.onload-animation:nth-child(2) { animation-delay: 30ms; }
-.onload-animation:nth-child(3) { animation-delay: 60ms; }
-.onload-animation:nth-child(4) { animation-delay: 90ms; }
-.onload-animation:nth-child(5) { animation-delay: 120ms; }
+#navbar          { animation-delay: 0ms; }
+#sidebar         { animation-delay: 100ms; }
+#content-wrapper { animation-delay: var(--content-delay, 150ms); }
+.footer          { animation-delay: 250ms; }
+#banner-credit   { animation-delay: 350ms; }
 
 /* --------------------------------------------------------------------------
-   4. Navigation Progress Bar
+   4. 文章内容块的渐进式呈现
    -------------------------------------------------------------------------- */
+#post-container > * {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
 
+    opacity: 0;
+    /* 默认给所有子元素一个最后的 delay，避免第7个元素比第1个先出现 */
+    animation: fade-in-up 400ms var(--swup-ease) forwards;
+    animation-delay: calc(var(--content-delay, 150ms) + 400ms); 
+}
+
+#post-container > :nth-child(1) { animation-delay: calc(var(--content-delay, 150ms) + 0ms); }
+#post-container > :nth-child(2) { animation-delay: calc(var(--content-delay, 150ms) + 60ms); }
+#post-container > :nth-child(3) { animation-delay: calc(var(--content-delay, 150ms) + 120ms); }
+#post-container > :nth-child(4) { animation-delay: calc(var(--content-delay, 150ms) + 180ms); }
+#post-container > :nth-child(5) { animation-delay: calc(var(--content-delay, 150ms) + 240ms); }
+#post-container > :nth-child(6) { animation-delay: calc(var(--content-delay, 150ms) + 300ms); }
+
+/* --------------------------------------------------------------------------
+   5. 导航进度条 (重构：统一使用 transition，避免动画冲突)
+   -------------------------------------------------------------------------- */
 #progress-bar {
     --progress-height: 3px;
-    --progress-duration: 8s;
 
     position: fixed;
     top: 0;
     left: 0;
-    width: 0;
+    width: 0%;
     height: var(--progress-height);
     z-index: 9999;
     pointer-events: none;
     background: var(--primary);
     box-shadow: 0 0 8px color-mix(in oklch, var(--primary) 60%, transparent);
     opacity: 0;
+    
+    /* 全部交由 transition 处理，JS 控制 width 即可 */
+    transition: width 0s, opacity 0.3s ease; 
 }
 
-@keyframes progress-loading {
-    0% { width: 0; }
-    100% { width: 95%; }
-}
-
+/* 开始加载时，JS 瞬间加上此类 */
 #progress-bar.loading {
     opacity: 1;
-    width: 0;
-    animation: progress-loading var(--progress-duration) cubic-bezier(0.1, 0.05, 0.1, 1) forwards;
+    width: 70%; /* 让宽度假装推进 */
+    transition: width 8s cubic-bezier(0.1, 0.05, 0.1, 1), opacity 0.3s ease;
 }
 
+/* 结束时，JS 将类改为 finishing */
 #progress-bar.finishing {
-    animation: none;
-    width: 100%;
     opacity: 1;
+    width: 100%;
     transition: width 200ms ease-out;
 }
 
+/* 彻底完成后，JS 改为 done */
 #progress-bar.done {
     width: 100%;
     opacity: 0;
     transition: opacity 300ms ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   6. 其他辅助
+   -------------------------------------------------------------------------- */
+#swup-container {
+    /* 仅在鼠标/触摸时不显示外边框，保留键盘 Tab 切入时的焦点可见性，符合 a11y 规范 */
+    outline: none; 
+}
+#swup-container:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    #sidebar, .footer, #banner-credit {
+        animation-delay: 50ms !important; 
+    }
+    #post-container > * {
+        animation-delay: 100ms !important;
+    }
 }
