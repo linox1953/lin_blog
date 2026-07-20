@@ -7,6 +7,7 @@ import { Icon } from "astro-icon/components";
 import ImageWrapper from "@/components/common/ImageWrapper.astro";
 import FloatingControls from "@/components/controls/FloatingControls.astro";
 import ScrollDownIndicator from "@/components/controls/ScrollDownIndicator.astro";
+import ScrollRestore from "@/components/controls/ScrollRestore.astro";
 import BackgroundPlayer from "@/components/features/BackgroundPlayer.astro";
 import TypewriterText from "@/components/features/TypewriterText.astro";
 import CategoryBar from "@/components/layout/CategoryBar.astro";
@@ -942,6 +943,7 @@ if (Astro.url.pathname === "/") {
 </div>
 
 <FloatingControls headings={headings} encrypted={encrypted} />
+<ScrollRestore />
 
 
 </Layout>
