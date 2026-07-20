@@ -8,58 +8,101 @@ import FloatingButton from "@/components/common/FloatingButton.astro";
   icon="material-symbols:keyboard-arrow-up-rounded"
   ariaLabel="Back to Top"
   onclick="backToTop()"
-  class="hide" 
+  class="hide"
 />
 
 <script is:raw is:inline>
+  // 返回顶部按钮点击行为
   function backToTop() {
-    // 直接使用原生滚动，避免OverlayScrollbars冲突
-    window.scroll({ top: 0, behavior: "smooth" });
+    const wallpaperMode = document.documentElement.getAttribute(
+      "data-wallpaper-mode",
+    );
+    const mainGrid = document.getElementById("main-grid");
+    if (wallpaperMode === "fullscreen" && mainGrid) {
+      mainGrid.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scroll({ top: 0, behavior: "smooth" });
+    }
   }
 
-  // 响应式返回顶部按钮管理器
+  // 按钮显隐管理器
   if (typeof window.BackToTopManager === "undefined") {
     window.BackToTopManager = class BackToTopManager {
+      static _instance = null;
+
       constructor() {
+        if (BackToTopManager._instance) {
+          BackToTopManager._instance.destroy();
+        }
+        BackToTopManager._instance = this;
         this.button = document.getElementById("back-to-top-btn");
+        this._scrollHandler = null;
+        this._resizeHandler = null;
+        this._threshold = 200;
         this.init();
       }
 
       init() {
-        if (!this.button) return; // wrapper checks removed as it is now flexible
-
+        if (!this.button) return;
+        this.updateThreshold();
         this.setupScrollListener();
+        this._resizeHandler = this.updateThreshold.bind(this);
+        window.addEventListener("resize", this._resizeHandler, {
+          passive: true,
+        });
+      }
+
+      updateThreshold() {
+        const wallpaperMode = document.documentElement.getAttribute(
+          "data-wallpaper-mode",
+        );
+        const mainGrid = document.getElementById("main-grid");
+        if (wallpaperMode === "fullscreen" && mainGrid) {
+          this._threshold =
+            mainGrid.getBoundingClientRect().top + window.pageYOffset;
+        } else {
+          this._threshold = 200;
+        }
       }
 
       setupScrollListener() {
         const updateVisibility = () => {
+          if (!this.button) return;
           const scrollTop =
             window.pageYOffset || document.documentElement.scrollTop;
-
-          // 当滚动超过200px时显示按钮
-          if (scrollTop > 200) {
+          if (scrollTop > this._threshold) {
             this.button.classList.remove("hide");
           } else {
             this.button.classList.add("hide");
           }
         };
 
+        this._scrollHandler = updateVisibility;
         window.addEventListener("scroll", updateVisibility, { passive: true });
+        updateVisibility();
+      }
+
+      destroy() {
+        if (this._scrollHandler) {
+          window.removeEventListener("scroll", this._scrollHandler);
+          this._scrollHandler = null;
+        }
+        if (this._resizeHandler) {
+          window.removeEventListener("resize", this._resizeHandler);
+          this._resizeHandler = null;
+        }
       }
     };
   }
-  // ... existing initialization logic ...
-  // 页面加载完成后初始化
-  document.addEventListener("DOMContentLoaded", () => {
-    new BackToTopManager();
-  });
 
-  // 如果页面已经加载完成，立即初始化
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      new BackToTopManager();
-    });
-  } else {
+  // 初始化入口
+  function init() {
     new BackToTopManager();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
   }
 </script>

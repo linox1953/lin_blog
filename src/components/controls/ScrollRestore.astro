@@ -1,0 +1,37 @@
+---
+
+---
+
+<script is:raw is:inline>
+    (function () {
+        if (!window.__scrollRestoreInit) {
+            window.__scrollRestoreInit = true;
+
+            if ("scrollRestoration" in history) {
+                history.scrollRestoration = "manual";
+            }
+
+            window.addEventListener("beforeunload", () => {
+                sessionStorage.setItem("__scrollPos", window.scrollY);
+            });
+        }
+
+        const saved = sessionStorage.getItem("__scrollPos");
+        if (saved !== null) {
+            const targetY = parseInt(saved, 10);
+            sessionStorage.removeItem("__scrollPos");
+
+            // 等待所有资源加载完成后再跳转
+            const doScroll = () => {
+                document.documentElement.scrollTop = targetY;
+                document.body.scrollTop = targetY; // 兼容旧浏览器
+            };
+
+            if (document.readyState === "complete") {
+                doScroll();
+            } else {
+                window.addEventListener("load", doScroll, { once: true });
+            }
+        }
+    })();
+</script>

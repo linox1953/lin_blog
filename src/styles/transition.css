@@ -1,10 +1,17 @@
 /* ==========================================================================
    Page Transition Animations (Swup) & Global Animations
+   (Performance Optimized Version)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   0. 无障碍访问 (Accessibility) - 减弱动态效果
+   全局性能基建 & 无障碍访问 (Accessibility)
    -------------------------------------------------------------------------- */
+body {
+    /* 强制开启抗锯齿，防止 GPU 动画过程中的文字边缘模糊或抖动 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
@@ -29,30 +36,35 @@
 .transition-main,
 .transition-leaving {
     opacity: 1;
-    transform: translateY(0);
+    /* 追加 translateZ(0) 强制触发 GPU 硬件加速 */
+    transform: translateY(0) translateZ(0);
     transition: opacity var(--swup-duration) var(--swup-ease),
                 transform var(--swup-duration) var(--swup-ease);
     will-change: opacity, transform;
+    /* 隐藏背面渲染，避免 iOS/Mac 下的渲染闪烁 */
+    backface-visibility: hidden; 
 }
 
 /* Swup 状态：离开时 (向上淡出) */
 html.is-animating.is-leaving .transition-main,
 html.is-animating.is-leaving .transition-leaving {
     opacity: 0;
-    transform: translateY(-1.5rem);
+    /* 保持 3D 轴心 */
+    transform: translateY(-1.5rem) translateZ(0);
     transition-timing-function: var(--swup-ease-leave);
 }
 
 /* Swup 状态：进入前 (此时 DOM 已替换，处于动画起始状态：在下方隐藏) */
 html.is-animating:not(.is-leaving) .transition-main {
     opacity: 0;
-    transform: translateY(1.5rem);
+    transform: translateY(1.5rem) translateZ(0);
 }
 
 /* Swup Fade 备用过渡 */
 .transition-swup-fade {
     opacity: 1;
     transition: opacity var(--swup-duration) ease-out;
+    will-change: opacity; /* [优化] */
 }
 html.is-animating .transition-swup-fade {
     opacity: 0;
@@ -64,11 +76,11 @@ html.is-animating .transition-swup-fade {
 @keyframes fade-in-up {
     from {
         opacity: 0;
-        transform: translateY(1.5rem); /* 缩小一点位移，2rem有时显得过于夸张 */
+        transform: translateY(1.5rem) translateZ(0); 
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) translateZ(0);
     }
 }
 
@@ -81,9 +93,11 @@ html.is-animating .transition-swup-fade {
 #content-wrapper,
 .footer,
 #banner-credit {
-    /* 默认不透明度 0，但加上 pointer-events: none 防止未加载完时误触 */
     opacity: 0;
     animation: fade-in-up 400ms var(--swup-ease) forwards;
+    /* 提前声明动画属性，并防止文字模糊 */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 #navbar          { animation-delay: 0ms; }
@@ -95,14 +109,20 @@ html.is-animating .transition-swup-fade {
 /* --------------------------------------------------------------------------
    4. 文章内容块的渐进式呈现
    -------------------------------------------------------------------------- */
+#post-container {
+    /* 给整个内容区加上布局隔离，内部元素的动画不会导致全屏重排 */
+    contain: content; 
+}
+
 #post-container > * {
     content-visibility: auto;
     contain-intrinsic-size: 0 500px;
-
     opacity: 0;
-    /* 默认给所有子元素一个最后的 delay，避免第7个元素比第1个先出现 */
     animation: fade-in-up 400ms var(--swup-ease) forwards;
     animation-delay: calc(var(--content-delay, 150ms) + 400ms); 
+    
+    will-change: transform, opacity;
+    backface-visibility: hidden;
 }
 
 #post-container > :nth-child(1) { animation-delay: calc(var(--content-delay, 150ms) + 0ms); }
@@ -129,25 +149,23 @@ html.is-animating .transition-swup-fade {
     box-shadow: 0 0 8px color-mix(in oklch, var(--primary) 60%, transparent);
     opacity: 0;
     
-    /* 全部交由 transition 处理，JS 控制 width 即可 */
+    will-change: width, opacity;
+    transform: translateZ(0); 
+
     transition: width 0s, opacity 0.3s ease; 
 }
 
-/* 开始加载时，JS 瞬间加上此类 */
+/* 保持你的进度条状态类不变... */
 #progress-bar.loading {
     opacity: 1;
-    width: 70%; /* 让宽度假装推进 */
+    width: 70%; 
     transition: width 8s cubic-bezier(0.1, 0.05, 0.1, 1), opacity 0.3s ease;
 }
-
-/* 结束时，JS 将类改为 finishing */
 #progress-bar.finishing {
     opacity: 1;
     width: 100%;
     transition: width 200ms ease-out;
 }
-
-/* 彻底完成后，JS 改为 done */
 #progress-bar.done {
     width: 100%;
     opacity: 0;
@@ -158,7 +176,6 @@ html.is-animating .transition-swup-fade {
    6. 其他辅助
    -------------------------------------------------------------------------- */
 #swup-container {
-    /* 仅在鼠标/触摸时不显示外边框，保留键盘 Tab 切入时的焦点可见性，符合 a11y 规范 */
     outline: none; 
 }
 #swup-container:focus-visible {
@@ -166,8 +183,11 @@ html.is-animating .transition-swup-fade {
     outline-offset: 2px;
 }
 
+/* --------------------------------------------------------------------------
+   移动端
+   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-    #sidebar, .footer, #banner-credit {
+     #sidebar, .footer, #banner-credit {
         animation-delay: 50ms !important; 
     }
     #post-container > * {
