@@ -5,9 +5,9 @@ import { encryptContent } from "@utils/crypto-utils";
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  password: string;
-  slug: string;
-  hint?: string;
+	password: string;
+	slug: string;
+	hint?: string;
 }
 
 const { password, slug, hint = "" } = Astro.props;
@@ -16,12 +16,12 @@ const rawHtml = await Astro.slots.render("default");
 const encryptedData = encryptContent(rawHtml, password, slug);
 
 const labels = {
-  protected: i18n(I18nKey.passwordProtected),
-  desc: i18n(I18nKey.passwordProtectedDesc),
-  hint: i18n(I18nKey.passwordHint),
-  placeholder: i18n(I18nKey.passwordPlaceholder),
-  submit: i18n(I18nKey.passwordSubmit),
-  error: i18n(I18nKey.passwordError),
+	protected: i18n(I18nKey.passwordProtected),
+	desc: i18n(I18nKey.passwordProtectedDesc),
+	hint: i18n(I18nKey.passwordHint),
+	placeholder: i18n(I18nKey.passwordPlaceholder),
+	submit: i18n(I18nKey.passwordSubmit),
+	error: i18n(I18nKey.passwordError),
 };
 ---
 
