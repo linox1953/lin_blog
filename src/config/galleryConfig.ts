@@ -18,6 +18,9 @@ export const galleryConfig: GalleryConfig = {
 		{
 			id: "linlijian",
 			name: "林大师",
+			password: "19530823",
+			passwordHint:
+				"请<a href='/sponsor/' class='link text-(--primary)'>捐赠</a>120元表示表示即可获得密码😍😍",
 			cover: "/gallery/linlijian/林力建猪八戒.avif",
 			description: "林力建个人图集",
 			location: "天津",
