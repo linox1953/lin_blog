@@ -156,8 +156,8 @@ importers:
         specifier: ^2.17.6
         version: 2.17.6
       satori:
-        specifier: ^0.28.1
-        version: 0.28.1
+        specifier: ^0.28.2
+        version: 0.28.2
       satteri:
         specifier: ^0.9.5
         version: 0.9.5
@@ -5077,8 +5077,8 @@ packages:
     resolution: {integrity: sha512-M4bo9tfv1yfhQZZKkc6dL07ALrGJtfvNOuhX3hU9AVPR/uPQ+nKOJBqTYc7LfMQblTW04mtSWDJWEyLvygJsLA==}
     engines: {node: '>=22.12.0'}
 
-  satori@0.28.1:
-    resolution: {integrity: sha512-PjF/PhstPlvBHxsBhMi8A8F2z9pgd1VkEI8a7n2ZkFg4cKE1f8rRP/LGiXLv3EFTw7a2gr9wS2pWwgMYdVJKUg==}
+  satori@0.28.2:
+    resolution: {integrity: sha512-AZBuptlBvlMf+EC/WI6Ss5MJwSEstrC6Pf1o5b2keg6h1QbvjStmrnJXUDGWOrfC1KSU0FApyGhF2xnBwmJRgA==}
     engines: {node: '>=16'}
 
   satteri@0.9.5:
@@ -11838,7 +11838,7 @@ snapshots:
       parse-srcset: 1.0.2
       postcss: 8.5.15
 
-  satori@0.28.1:
+  satori@0.28.2:
     dependencies:
       '@shuding/opentype.js': 1.4.0-beta.0
       css-background-parser: 0.1.0
