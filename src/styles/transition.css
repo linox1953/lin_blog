@@ -3,15 +3,6 @@
    (Performance Optimized Version)
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   全局性能基建 & 无障碍访问 (Accessibility)
-   -------------------------------------------------------------------------- */
-body {
-    /* 强制开启抗锯齿，防止 GPU 动画过程中的文字边缘模糊或抖动 */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
@@ -40,7 +31,6 @@ body {
     transform: translateY(0) translateZ(0);
     transition: opacity var(--swup-duration) var(--swup-ease),
                 transform var(--swup-duration) var(--swup-ease);
-    will-change: opacity, transform;
     /* 隐藏背面渲染，避免 iOS/Mac 下的渲染闪烁 */
     backface-visibility: hidden; 
 }
@@ -64,7 +54,6 @@ html.is-animating:not(.is-leaving) .transition-main {
 .transition-swup-fade {
     opacity: 1;
     transition: opacity var(--swup-duration) ease-out;
-    will-change: opacity; /* [优化] */
 }
 html.is-animating .transition-swup-fade {
     opacity: 0;
@@ -95,8 +84,6 @@ html.is-animating .transition-swup-fade {
 #banner-credit {
     opacity: 0;
     animation: fade-in-up 400ms var(--swup-ease) forwards;
-    /* 提前声明动画属性，并防止文字模糊 */
-    will-change: transform, opacity;
     backface-visibility: hidden;
 }
 
@@ -114,7 +101,7 @@ html.is-animating .transition-swup-fade {
     contain: content; 
 }
 
-#post-container > * {
+#post-container > div {
     content-visibility: auto;
     contain-intrinsic-size: 0 500px;
     opacity: 0;

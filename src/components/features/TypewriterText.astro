@@ -1,18 +1,18 @@
 ---
 export interface Props {
-	text: string | string[];
-	speed?: number;
-	deleteSpeed?: number;
-	pauseTime?: number;
-	class?: string;
+  text: string | string[];
+  speed?: number;
+  deleteSpeed?: number;
+  pauseTime?: number;
+  class?: string;
 }
 
 const {
-	text,
-	speed = 100,
-	deleteSpeed = 50,
-	pauseTime = 2000,
-	class: className = "",
+  text,
+  speed = 100,
+  deleteSpeed = 50,
+  pauseTime = 2000,
+  class: className = "",
 } = Astro.props;
 const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 ---
@@ -34,7 +34,7 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
     private pauseTime: number;
     private currentIndex: number = 0;
     private isDeleting: boolean = false;
-    private timeoutId: number | null = null;
+    private animationTimer: number | null = null;
 
     constructor(element: HTMLElement) {
       this.element = element;
@@ -76,11 +76,25 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
 
     private start() {
       if (this.texts.length === 0) return;
+      document.addEventListener("visibilitychange", this.handleVisibility);
       this.type();
     }
 
     private getCurrentText(): string {
       return this.texts[this.currentTextIndex] || "";
+    }
+
+    /** 用 requestAnimationFrame 实现延迟调用，跟随浏览器帧同步 */
+    private delayAndCall(fn: () => void, ms: number) {
+      const start = performance.now();
+      const tick = (now: number) => {
+        if (now - start >= ms) {
+          fn();
+        } else {
+          this.animationTimer = requestAnimationFrame(tick);
+        }
+      };
+      this.animationTimer = requestAnimationFrame(tick);
     }
 
     private type() {
@@ -95,16 +109,13 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
             .slice(0, this.currentIndex)
             .join("");
 
-          this.timeoutId = window.setTimeout(
-            () => this.type(),
-            this.deleteSpeed
-          );
+          this.delayAndCall(() => this.type(), this.deleteSpeed);
         } else {
           // 删除完成，切换到下一条文本
           this.isDeleting = false;
           this.currentTextIndex =
             (this.currentTextIndex + 1) % this.texts.length;
-          this.timeoutId = window.setTimeout(() => this.type(), this.speed);
+          this.delayAndCall(() => this.type(), this.speed);
         }
       } else {
         if (this.currentIndex < segments.length) {
@@ -113,38 +124,53 @@ const textData = Array.isArray(text) ? JSON.stringify(text) : text;
             .slice(0, this.currentIndex)
             .join("");
 
-          this.timeoutId = window.setTimeout(() => this.type(), this.speed);
+          this.delayAndCall(() => this.type(), this.speed);
         } else {
           // 打字完成，暂停后开始删除（如果有多条文本）
           if (this.texts.length > 1) {
             this.isDeleting = true;
-            this.timeoutId = window.setTimeout(
-              () => this.type(),
-              this.pauseTime
-            );
+            this.delayAndCall(() => this.type(), this.pauseTime);
           }
           // 如果只有一条文本，保持显示不删除
         }
       }
     }
 
+    /** 页面不可见时暂停动画 */
+    private handleVisibility = () => {
+      if (document.hidden) {
+        if (this.animationTimer !== null) {
+          cancelAnimationFrame(this.animationTimer);
+          this.animationTimer = null;
+        }
+      } else {
+        // 恢复：从当前状态继续
+        this.delayAndCall(() => this.type(), 0);
+      }
+    };
+
     public destroy() {
-      if (this.timeoutId) {
-        clearTimeout(this.timeoutId);
+      document.removeEventListener("visibilitychange", this.handleVisibility);
+      if (this.animationTimer !== null) {
+        cancelAnimationFrame(this.animationTimer);
+        this.animationTimer = null;
       }
     }
 
     private segmentText(text: string): string[] {
-      const segmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
-      return Array.from(segmenter.segment(text), s => s.segment);
+      const segmenter = new Intl.Segmenter(undefined, {
+        granularity: "grapheme",
+      });
+      return Array.from(segmenter.segment(text), (s) => s.segment);
     }
-
   }
 
   function initTypewriterElements() {
     const typewriterElements = document.querySelectorAll(".typewriter");
     typewriterElements.forEach((element) => {
-      const el = element as HTMLElement & { __typewriterInstance?: TypewriterEffect };
+      const el = element as HTMLElement & {
+        __typewriterInstance?: TypewriterEffect;
+      };
       if (el.__typewriterInstance) {
         el.__typewriterInstance.destroy();
       }
