@@ -409,7 +409,14 @@ function initialActive(categoryName: string): {
       const bar = document.getElementById("category-bar");
       if (!bar) return;
       const targetUrl = new URL(visit.to.url, window.location.href);
-      setActiveCategory(bar, targetUrl);
+      // 仅当目标状态可从 URL 直接确定时才提前更新（首页、归档、分类列表、标签筛选）。
+      // 导航到文章页时跳过，因为 postCategory 只有 DOM 替换后才可用，
+      // 提前更新会错误地清空旧高亮且无法设置新状态，导致闪烁。
+      const { isHome, isArchive, isCategories, activeCategory, hasTag, hasUncategorized } =
+        getCategoryBarState(bar, targetUrl);
+      if (isHome || isArchive || isCategories || activeCategory || hasTag || hasUncategorized) {
+        setActiveCategory(bar, targetUrl);
+      }
     });
   }
   if (window.swup?.hooks) {

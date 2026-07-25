@@ -24,7 +24,7 @@
     }
 }
 
-/* 双侧边栏时减少卡片列数（1280px以上才同时显示两侧边栏） */
+/* 双侧边栏时减少卡片列数（1440px以上才同时显示两侧边栏） */
 [data-sidebar-position="both"] .anime-card-grid,
 [data-sidebar-position="both"] .bangumi-masonry {
     grid-template-columns: repeat(2, 1fr) !important;

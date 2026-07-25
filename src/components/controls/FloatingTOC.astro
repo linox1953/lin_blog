@@ -266,7 +266,7 @@ const hideSidebarOnPostPage =
     // 双侧边栏模式（含文章页临时双侧栏）：小屏幕或侧边栏目录未启用时显示悬浮目录
     const effectiveIsBothSidebars = sidebarPosition === 'both' || showBothSidebarsOnPost;
     if (effectiveIsBothSidebars) {
-      const isSmallScreen = window.innerWidth < 1280;
+      const isSmallScreen = window.innerWidth < 1440;
       return isSmallScreen || !isSidebarTocEnabled;
     }
 

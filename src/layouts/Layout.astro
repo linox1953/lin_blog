@@ -1477,6 +1477,7 @@ function disableAnimation() {
     "md:grid-cols-[17.5rem_1fr]",
     "md:grid-cols-[1fr_17.5rem]",
     "xl:grid-cols-[17.5rem_1fr_17.5rem]",
+    "2xl:grid-cols-[17.5rem_1fr_17.5rem]",
   ];
 
   // 多列布局下的列定位类（需在切换单列时清除）
@@ -1485,6 +1486,9 @@ function disableAnimation() {
     "xl:col-start-1", "xl:col-start-2", "xl:col-start-3",
     "xl:col-end-3",
     "md:col-span-1", "xl:col-span-1",
+    "2xl:col-start-1", "2xl:col-start-2", "2xl:col-start-3",
+    "2xl:col-end-3",
+    "2xl:col-span-1",
   ];
 
   // 清除元素上的多列定位类
@@ -1528,8 +1532,8 @@ function disableAnimation() {
     if (sidebarPosition === "both" || shouldBothSidebars) {
       const effectiveTabletSidebar = (shouldBothSidebars && sidebarPosition === "right") ? "right" : tabletSidebar;
       newGridClasses = effectiveTabletSidebar === "right"
-        ? "grid-cols-1 md:grid-cols-[1fr_17.5rem] xl:grid-cols-[17.5rem_1fr_17.5rem]"
-        : "grid-cols-1 md:grid-cols-[17.5rem_1fr] xl:grid-cols-[17.5rem_1fr_17.5rem]";
+        ? "grid-cols-1 md:grid-cols-[1fr_17.5rem] 2xl:grid-cols-[17.5rem_1fr_17.5rem]"
+        : "grid-cols-1 md:grid-cols-[17.5rem_1fr] 2xl:grid-cols-[17.5rem_1fr_17.5rem]";
     } else if (sidebarPosition === "right") {
       newGridClasses = "grid-cols-1 md:grid-cols-[1fr_17.5rem]";
     } else {
@@ -1549,10 +1553,10 @@ function disableAnimation() {
       if (shouldBothSidebars) {
         // 文章页临时双侧栏：主内容移到第2列，右侧栏移到第3列，页脚居中
         clearColPositioning(swupContainer, swupWrapper, footer);
-        swupContainer?.classList.add("md:col-start-2", "xl:col-start-2", "xl:col-end-3");
+        swupContainer?.classList.add("md:col-start-2", "2xl:col-start-2", "2xl:col-end-3");
         swupWrapper?.classList.add("md:col-start-2");
-        rightSidebar?.classList.add("xl:col-start-3");
-        footer?.classList.add("md:col-start-2", "xl:col-start-2");
+        rightSidebar?.classList.add("2xl:col-start-3");
+        footer?.classList.add("md:col-start-2", "2xl:col-start-2");
       } else {
         // 非文章页：恢复2列布局定位（右侧栏保持 md:col-start-2 不变）
         clearColPositioning(swupContainer, swupWrapper, footer);
