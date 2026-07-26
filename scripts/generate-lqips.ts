@@ -114,12 +114,14 @@ async function main() {
 	let processed = 0;
 
 	if (newFiles.length > 0) {
-		for (const file of newFiles) {
-			const filePath = path.resolve(file);
-			process.stdout.write(
-				`\rProcessing ${processed + 1}/${newFiles.length}...`,
-			);
-			const compact = await processImage(filePath);
+		const results = await Promise.all(
+			newFiles.map(async (file) => {
+				const filePath = path.resolve(file);
+				const compact = await processImage(filePath);
+				return { file, compact };
+			}),
+		);
+		for (const { file, compact } of results) {
 			if (compact !== null) {
 				const key = filePathToKey(file);
 				lqips[key] = compact;

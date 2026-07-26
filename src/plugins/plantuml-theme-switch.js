@@ -82,21 +82,24 @@
 		applyTheme();
 	}
 
-	const themeObserver = new MutationObserver((mutations) => {
-		for (const mutation of mutations) {
-			if (
-				mutation.type === "attributes" &&
-				mutation.attributeName === "class"
-			) {
-				applyTheme();
-				break;
+	// 监听主题切换 — 全局守卫避免重复创建（Swup 导航时脚本可能重新执行）
+	if (!window.__plantumlSwitchThemeObserver) {
+		window.__plantumlSwitchThemeObserver = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				if (
+					mutation.type === "attributes" &&
+					mutation.attributeName === "class"
+				) {
+					applyTheme();
+					break;
+				}
 			}
-		}
-	});
-	themeObserver.observe(document.documentElement, {
-		attributes: true,
-		attributeFilter: ["class"],
-	});
+		});
+		window.__plantumlSwitchThemeObserver.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ["class"],
+		});
+	}
 
 	document.addEventListener("astro:page-load", () => {
 		initAll();

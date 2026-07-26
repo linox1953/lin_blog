@@ -4,6 +4,7 @@
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     ::before,
     ::after {
@@ -18,7 +19,7 @@
    1. Swup Page Transitions (统一时间，明确起点与终点)
    -------------------------------------------------------------------------- */
 :root {
-    --swup-duration: 250ms; 
+    --swup-duration: 250ms;
     --swup-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --swup-ease-leave: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
@@ -30,9 +31,9 @@
     /* 追加 translateZ(0) 强制触发 GPU 硬件加速 */
     transform: translateY(0) translateZ(0);
     transition: opacity var(--swup-duration) var(--swup-ease),
-                transform var(--swup-duration) var(--swup-ease);
+        transform var(--swup-duration) var(--swup-ease);
     /* 隐藏背面渲染，避免 iOS/Mac 下的渲染闪烁 */
-    backface-visibility: hidden; 
+    backface-visibility: hidden;
 }
 
 /* Swup 状态：离开时 (向上淡出) */
@@ -55,6 +56,7 @@ html.is-animating:not(.is-leaving) .transition-main {
     opacity: 1;
     transition: opacity var(--swup-duration) ease-out;
 }
+
 html.is-animating .transition-swup-fade {
     opacity: 0;
 }
@@ -65,8 +67,9 @@ html.is-animating .transition-swup-fade {
 @keyframes fade-in-up {
     from {
         opacity: 0;
-        transform: translateY(1.5rem) translateZ(0); 
+        transform: translateY(1.5rem) translateZ(0);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) translateZ(0);
@@ -87,40 +90,71 @@ html.is-animating .transition-swup-fade {
     backface-visibility: hidden;
 }
 
-#navbar          { animation-delay: 0ms; }
-#sidebar         { animation-delay: 100ms; }
-#content-wrapper { animation-delay: var(--content-delay, 150ms); }
-.footer          { animation-delay: 250ms; }
-#banner-credit   { animation-delay: 350ms; }
+#navbar {
+    animation-delay: 0ms;
+}
+
+#sidebar {
+    animation-delay: 100ms;
+}
+
+#content-wrapper {
+    animation-delay: var(--content-delay, 150ms);
+}
+
+.footer {
+    animation-delay: 250ms;
+}
+
+#banner-credit {
+    animation-delay: 350ms;
+}
 
 /* --------------------------------------------------------------------------
    4. 文章内容块的渐进式呈现
    -------------------------------------------------------------------------- */
 #post-container {
     /* 给整个内容区加上布局隔离，内部元素的动画不会导致全屏重排 */
-    contain: content; 
+    contain: content;
 }
 
-#post-container > div {
+#post-container>div {
     content-visibility: auto;
     contain-intrinsic-size: 0 500px;
     opacity: 0;
     animation: fade-in-up 400ms var(--swup-ease) forwards;
-    animation-delay: calc(var(--content-delay, 150ms) + 400ms); 
-    
+    animation-delay: calc(var(--content-delay, 150ms) + 400ms);
+
     will-change: transform, opacity;
     backface-visibility: hidden;
 }
 
-#post-container > :nth-child(1) { animation-delay: calc(var(--content-delay, 150ms) + 0ms); }
-#post-container > :nth-child(2) { animation-delay: calc(var(--content-delay, 150ms) + 60ms); }
-#post-container > :nth-child(3) { animation-delay: calc(var(--content-delay, 150ms) + 120ms); }
-#post-container > :nth-child(4) { animation-delay: calc(var(--content-delay, 150ms) + 180ms); }
-#post-container > :nth-child(5) { animation-delay: calc(var(--content-delay, 150ms) + 240ms); }
-#post-container > :nth-child(6) { animation-delay: calc(var(--content-delay, 150ms) + 300ms); }
+#post-container> :nth-child(1) {
+    animation-delay: calc(var(--content-delay, 150ms) + 0ms);
+}
+
+#post-container> :nth-child(2) {
+    animation-delay: calc(var(--content-delay, 150ms) + 60ms);
+}
+
+#post-container> :nth-child(3) {
+    animation-delay: calc(var(--content-delay, 150ms) + 120ms);
+}
+
+#post-container> :nth-child(4) {
+    animation-delay: calc(var(--content-delay, 150ms) + 180ms);
+}
+
+#post-container> :nth-child(5) {
+    animation-delay: calc(var(--content-delay, 150ms) + 240ms);
+}
+
+#post-container> :nth-child(6) {
+    animation-delay: calc(var(--content-delay, 150ms) + 300ms);
+}
 
 /* --------------------------------------------------------------------------
-   5. 导航进度条 (重构：统一使用 transition，避免动画冲突)
+   5. 导航进度条 (改为 scaleX，避免触发 Layout)
    -------------------------------------------------------------------------- */
 #progress-bar {
     --progress-height: 3px;
@@ -128,33 +162,39 @@ html.is-animating .transition-swup-fade {
     position: fixed;
     top: 0;
     left: 0;
-    width: 0%;
+    width: 100%;
     height: var(--progress-height);
     z-index: 9999;
     pointer-events: none;
     background: var(--primary);
     box-shadow: 0 0 8px color-mix(in oklch, var(--primary) 60%, transparent);
     opacity: 0;
-    
-    will-change: width, opacity;
-    transform: translateZ(0); 
 
-    transition: width 0s, opacity 0.3s ease; 
+    transform-origin: left center;
+    transform: scaleX(0);
+
+    will-change: transform, opacity;
+
+    transition: transform 0s, opacity 0.3s ease;
 }
 
-/* 保持你的进度条状态类不变... */
+/* 加载中：模拟 70% 进度 */
 #progress-bar.loading {
     opacity: 1;
-    width: 70%; 
-    transition: width 8s cubic-bezier(0.1, 0.05, 0.1, 1), opacity 0.3s ease;
+    transform: scaleX(0.7);
+    transition: transform 8s cubic-bezier(0.1, 0.05, 0.1, 1), opacity 0.3s ease;
 }
+
+/* 完成前：快速补满剩余进度 */
 #progress-bar.finishing {
     opacity: 1;
-    width: 100%;
-    transition: width 200ms ease-out;
+    transform: scaleX(1);
+    transition: transform 200ms ease-out;
 }
+
+/* 完成后：保持满宽，淡出消失 */
 #progress-bar.done {
-    width: 100%;
+    transform: scaleX(1);
     opacity: 0;
     transition: opacity 300ms ease-out;
 }
@@ -163,8 +203,9 @@ html.is-animating .transition-swup-fade {
    6. 其他辅助
    -------------------------------------------------------------------------- */
 #swup-container {
-    outline: none; 
+    outline: none;
 }
+
 #swup-container:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
@@ -174,10 +215,14 @@ html.is-animating .transition-swup-fade {
    移动端
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-     #sidebar, .footer, #banner-credit {
-        animation-delay: 50ms !important; 
+
+    #sidebar,
+    .footer,
+    #banner-credit {
+        animation-delay: 50ms !important;
     }
-    #post-container > * {
+
+    #post-container>* {
         animation-delay: 100ms !important;
     }
 }

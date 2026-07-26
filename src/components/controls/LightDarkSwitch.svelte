@@ -64,11 +64,12 @@ onMount(() => {
 	}
 
 	// 如果是system模式，监听系统主题变化
+	let mediaQuery: MediaQueryList | null = null;
+	const handleSystemChange = () => {
+		updateDisplayedMode();
+	};
 	if (storedTheme === SYSTEM_MODE) {
-		const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-		const handleSystemChange = () => {
-			updateDisplayedMode();
-		};
+		mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 		mediaQuery.addEventListener("change", handleSystemChange);
 	}
 
@@ -81,15 +82,17 @@ onMount(() => {
 
 	// 检查Swup是否已经加载
 	const win = window as WindowWithSwup;
+	const handleSwupEnable = () => {
+		const w = window as WindowWithSwup;
+		if (w.swup?.hooks) {
+			w.swup.hooks.on("content:replace", handleContentReplace);
+		}
+	};
+
 	if (win.swup?.hooks) {
 		win.swup.hooks.on("content:replace", handleContentReplace);
 	} else {
-		document.addEventListener("swup:enable", () => {
-			const w = window as WindowWithSwup;
-			if (w.swup?.hooks) {
-				w.swup.hooks.on("content:replace", handleContentReplace);
-			}
-		});
+		document.addEventListener("swup:enable", handleSwupEnable);
 	}
 
 	// 监听主题变化事件
@@ -110,6 +113,10 @@ onMount(() => {
 
 	// 清理函数
 	return () => {
+		if (mediaQuery) {
+			mediaQuery.removeEventListener("change", handleSystemChange);
+		}
+		document.removeEventListener("swup:enable", handleSwupEnable);
 		window.removeEventListener("theme-change", handleThemeChange);
 	};
 });

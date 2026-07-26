@@ -402,22 +402,24 @@
 		applyTheme();
 	}
 
-	// 监听主题切换
-	const themeObserver = new MutationObserver((mutations) => {
-		for (const mutation of mutations) {
-			if (
-				mutation.type === "attributes" &&
-				mutation.attributeName === "class"
-			) {
-				applyTheme();
-				break;
+	// 监听主题切换 — 全局守卫避免重复创建（Swup 导航时脚本可能重新执行）
+	if (!window.__plantumlRenderThemeObserver) {
+		window.__plantumlRenderThemeObserver = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				if (
+					mutation.type === "attributes" &&
+					mutation.attributeName === "class"
+				) {
+					applyTheme();
+					break;
+				}
 			}
-		}
-	});
-	themeObserver.observe(document.documentElement, {
-		attributes: true,
-		attributeFilter: ["class"],
-	});
+		});
+		window.__plantumlRenderThemeObserver.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ["class"],
+		});
+	}
 
 	// Swup 导航清理
 	document.addEventListener("astro:before-preparation", closeAllOverlays);
