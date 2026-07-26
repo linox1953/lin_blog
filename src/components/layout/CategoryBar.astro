@@ -166,6 +166,10 @@ function initialActive(categoryName: string): {
   .category-scroll::-webkit-scrollbar {
     display: none;
   }
+  /* 导航时临时禁用 pill 过渡，避免 setActiveCategory 清除/重设时 150ms 颜色渐变可见 */
+  .category-bar.transition-lock .category-pill {
+    transition: none !important;
+  }
 </style>
 
 <script>
@@ -387,32 +391,63 @@ function initialActive(categoryName: string): {
     }
   }
 
+  // 标记 content:replace 是否已更新 pill 状态，避免 astro:page-load 重复触发
+  let categoryBarStateReady = false;
+
   updateCategoryBar();
   initCategoryBarInteractions();
   initScrollFeatures();
+
   document.addEventListener("astro:page-load", () => {
-    updateCategoryBar();
+    if (!categoryBarStateReady) {
+      updateCategoryBar();
+    }
+    categoryBarStateReady = false;
     initScrollFeatures();
   });
+
   document.addEventListener("swup:contentReplaced", () => {
-    updateCategoryBar();
-    // 某些 swup 生命周期下 URL/DOM 状态同步稍晚，下一帧再校正一次避免状态残留
-    requestAnimationFrame(() => {
-      updateCategoryBar();
-    });
+    // pill 状态已由 content:replace 提前更新，此处仅处理滚动定位，
+    // 不调用 updateCategoryBar()，避免 setActiveCategory 重复清除/重设。
+    const bar = document.getElementById("category-bar");
+    if (!bar) return;
+    const currentUrl = new URL(window.location.href);
+    const scrollBehavior = "smooth";
+    const deferScroll = shouldDeferCategoryScroll(bar, currentUrl);
+    if (deferScroll) {
+      if (delayedCategoryBarScrollTimer) {
+        window.clearTimeout(delayedCategoryBarScrollTimer);
+        delayedCategoryBarScrollTimer = undefined;
+      }
+      delayedCategoryBarScrollTimer = window.setTimeout(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            scrollActiveCategoryIntoView(bar, scrollBehavior);
+            updateScrollHint();
+          });
+        });
+      }, 220);
+    } else {
+      scrollActiveCategoryIntoView(bar, scrollBehavior);
+      updateScrollHint();
+    }
   });
 
   // 在 Swup 导航时同步分类信息
+  let swupHooksBound = false;
   function setupSwupHooks() {
-    if (!window.swup?.hooks) return;
+    if (!window.swup?.hooks || swupHooksBound) return;
+    swupHooksBound = true;
 
-    // content:replace 在 DOM 替换前触发，此时可访问 fetched document
-    // Swup 只替换容器 innerHTML，不更新容器元素自身的属性，
-    // 因此从新文档中提取 data-current-post-category 并手动同步。
+    // content:replace 在 DOM 替换/过渡前触发，此时可通过 visit.to.document
+    // 访问新页面 DOM。Swup 只替换容器 innerHTML，不更新容器元素自身的属性，
+    // 因此需手动从新文档中提取 data-current-post-category 并同步到当前容器和分类栏。
+    // 同时对文章页提前更新 pill 状态，配合 transition-lock 使状态变化瞬时完成。
+    // 列表页由 visit:start 提前处理，此处跳过避免重复。
     window.swup.hooks.on("content:replace", (visit: any) => {
       const newDoc = visit.to.document;
       if (!newDoc) return;
-      const newContainer = newDoc.querySelector<HTMLElement>("#swup-container");
+      const newContainer = newDoc.querySelector("#swup-container") as HTMLElement | null;
       if (!newContainer) return;
       const newCategory = newContainer.getAttribute("data-current-post-category") || "";
 
@@ -422,13 +457,28 @@ function initialActive(categoryName: string): {
       }
 
       const bar = document.getElementById("category-bar");
-      if (bar) {
-        bar.setAttribute("data-current-post-category", newCategory);
+      if (!bar) return;
+      bar.setAttribute("data-current-post-category", newCategory);
+
+      // 文章页：visit:start 跳过，在此处提前更新 pill 状态，
+      // 配合 transition-lock 使 setActiveCategory 瞬时生效
+      const currentUrl = new URL(window.location.href);
+      const { isHome, isArchive, isCategories, activeCategory, hasTag, hasUncategorized } =
+        getCategoryBarState(bar, currentUrl);
+      if (!isHome && !isArchive && !isCategories && !activeCategory && !hasTag && !hasUncategorized) {
+        bar.classList.add("transition-lock");
+        setActiveCategory(bar, currentUrl);
+        requestAnimationFrame(() => {
+          bar.classList.remove("transition-lock");
+        });
       }
+
+      // 所有操作成功完成，标记状态已就绪，后续 astro:page-load 跳过 updateCategoryBar()
+      categoryBarStateReady = true;
     });
 
     // visit:start 时提前更新列表页（首页/归档/分类/标签）的高亮，
-    // 文章页跳过（category 信息由 content:replace 保障）。
+    // 提供即时视觉反馈。文章页跳过，由 content:replace 处理。
     window.swup.hooks.on("visit:start", (visit: any) => {
       const bar = document.getElementById("category-bar");
       if (!bar) return;
@@ -436,7 +486,11 @@ function initialActive(categoryName: string): {
       const { isHome, isArchive, isCategories, activeCategory, hasTag, hasUncategorized } =
         getCategoryBarState(bar, targetUrl);
       if (isHome || isArchive || isCategories || activeCategory || hasTag || hasUncategorized) {
+        bar.classList.add("transition-lock");
         setActiveCategory(bar, targetUrl);
+        requestAnimationFrame(() => {
+          bar.classList.remove("transition-lock");
+        });
       }
     });
   }
