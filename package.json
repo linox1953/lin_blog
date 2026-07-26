@@ -15,7 +15,13 @@
     "lint": "biome check --write ./src",
     "preinstall": "npx only-allow pnpm",
     "icons": "node scripts/generate-icons.js",
-    "lqips": "npx tsx scripts/generate-lqips.ts"
+    "lqips": "npx tsx scripts/generate-lqips.ts",
+    "test": "playwright test",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:all": "vitest run && playwright test"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
@@ -83,13 +89,15 @@
     "@biomejs/biome": "2.5.5",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/svg-spinners": "^1.2.4",
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/qrcode": "^1.5.6",
     "@types/sanitize-html": "^2.16.1",
     "postcss-import": "^16.1.1",
     "postcss-nesting": "^14.0.0",
     "rehype-callouts": "^2.2.0",
-    "subset-font": "^2.5.0"
+    "subset-font": "^2.5.0",
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@9.14.4"
 }

@@ -17,24 +17,38 @@ pnpm-debug.log*
 .env
 .env.production
 
-# macOS-specific files
-.DS_Store
+# test artifacts
+test-results/
+playwright-report/
 
-.vercel
+# deployment (platform config files are committed, but local state dirs are not)
+.vercel/
+.wrangler/
 
+# lock files (only pnpm-lock.yaml is committed)
 package-lock.json
 bun.lockb
 yarn.lock
 
-# ide
+# ide / editor
 .idea
 *.iml
+.vscode/
 .claude
 .trae
 
-# docs
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# docs (upstream docs, not project source)
 Firefly-docs/
 
+# build cache / temp
 cache/
 package/
+
+# personal notes
 .obsidian/

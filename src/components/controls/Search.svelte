@@ -72,10 +72,10 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 	}
 	if (!initialized) return;
 
-	isSearching = true;
-
 	clearTimeout(debounceTimer);
 	debounceTimer = setTimeout(async () => {
+		isSearching = true;
+
 		try {
 			let searchResults: SearchResult[] = [];
 

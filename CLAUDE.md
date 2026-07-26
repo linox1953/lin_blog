@@ -8,16 +8,22 @@ Firefly is a feature-rich static blog theme built on **Astro 6** with **Svelte 5
 
 ## Commands
 
-| Command | Purpose |
-|---|---|
-| `pnpm dev` | Dev server at `localhost:4321` |
-| `pnpm build` | Production build (icons → LQIPs → Astro build → Pagefind indexing) |
-| `pnpm preview` | Preview production build |
-| `pnpm check` | `astro check` for type/error checking |
-| `pnpm type-check` | `tsc --noEmit --isolatedDeclarations` |
-| `pnpm lint` | Biome lint + auto-fix |
-| `pnpm format` | Biome format |
-| `pnpm new-post <filename>` | Scaffold a new blog post |
+| Command                    | Purpose                                                            |
+| -------------------------- | ------------------------------------------------------------------ |
+| `pnpm dev`                 | Dev server at `localhost:4321`                                     |
+| `pnpm build`               | Production build (icons → LQIPs → Astro build → Pagefind indexing) |
+| `pnpm preview`             | Preview production build                                           |
+| `pnpm check`               | `astro check` for type/error checking                              |
+| `pnpm type-check`          | `tsc --noEmit --isolatedDeclarations`                              |
+| `pnpm lint`                | Biome lint + auto-fix                                              |
+| `pnpm format`              | Biome format                                                       |
+| `pnpm new-post <filename>` | Scaffold a new blog post                                           |
+| `pnpm test`                | Run E2E tests (Playwright, headless)                               |
+| `pnpm test:headed`         | Run E2E tests in headed mode (visible browser)                     |
+| `pnpm test:debug`          | Run E2E tests with Playwright Inspector                            |
+| `pnpm test:unit`           | Run unit tests (Vitest, once)                                      |
+| `pnpm test:unit:watch`     | Run unit tests in watch mode                                       |
+| `pnpm test:all`            | Run unit tests then E2E tests sequentially                         |
 
 Package manager is **pnpm** (enforced). Node.js >= 22 required.
 

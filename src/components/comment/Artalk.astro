@@ -38,13 +38,17 @@ const config = {
 
         updateTheme();
 
+        // 深色模式同步 — 断开旧 observer 再创建，避免 Swup 导航时累积
+        if (window.__artalkThemeObserver) {
+          window.__artalkThemeObserver.disconnect();
+        }
         const observer = new MutationObserver((_mutations) => {
             updateTheme();
         });
-
         observer.observe(document.documentElement, {
             attributes: true,
             attributeFilter: ['class'],
         });
+        window.__artalkThemeObserver = observer;
     </script>
 </div>

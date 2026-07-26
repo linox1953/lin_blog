@@ -88,7 +88,7 @@ function extractIconNames(content) {
 /**
  * 加载图标集数据
  */
-async function loadIconSet(prefix) {
+function loadIconSet(prefix) {
 	if (iconSetCache.has(prefix)) {
 		return iconSetCache.get(prefix);
 	}
@@ -114,14 +114,14 @@ async function loadIconSet(prefix) {
 /**
  * 获取单个图标的 SVG
  */
-async function getIconSvg(iconName) {
+function getIconSvg(iconName) {
 	const [prefix, name] = iconName.split(":");
 	if (!prefix || !name) {
 		console.warn(`⚠️  无效的图标名称: ${iconName}`);
 		return null;
 	}
 
-	const iconSet = await loadIconSet(prefix);
+	const iconSet = loadIconSet(prefix);
 	if (!iconSet) {
 		return null;
 	}
@@ -244,7 +244,7 @@ async function main() {
 	let failCount = 0;
 
 	for (const iconName of allIcons) {
-		const svg = await getIconSvg(iconName);
+		const svg = getIconSvg(iconName);
 		if (svg) {
 			iconsMap.set(iconName, svg);
 			successCount++;

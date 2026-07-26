@@ -40,7 +40,9 @@ import {
 } from "@utils/setting-utils";
 import { onMount } from "svelte";
 import Icon from "@/components/common/Icon.svelte";
-import { backgroundWallpaper, sakuraConfig, siteConfig } from "@/config";
+import { backgroundWallpaper } from "@/config/backgroundWallpaper";
+import { sakuraConfig } from "@/config/effectsConfig";
+import { siteConfig } from "@/config/siteConfig";
 import type { WALLPAPER_MODE } from "@/types/config";
 
 type OverlaySliderItem = {

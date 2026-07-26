@@ -32,32 +32,36 @@ const len = page.data.length;
 </MainGridLayout>
 
 <script>
-  // 响应式分页处理脚本
-  document.addEventListener("DOMContentLoaded", function () {
-    // 如果启用了响应式分页，添加相应的CSS类
-    const responsiveEnabled = true; // ${siteConfig.pagination.responsive}
-    if (responsiveEnabled) {
-      const deviceType = getDeviceType();
-      document.body.classList.add(`device-${deviceType}`);
+  // 响应式分页处理脚本 — 使用守卫避免 Swup 导航时重复注册
+  if (!(window as any).__pageResizeBound) {
+    (window as any).__pageResizeBound = true;
 
-      // 监听窗口大小变化
-      let resizeTimeout: any;
-      window.addEventListener("resize", function () {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function () {
-          const newDeviceType = getDeviceType();
-          const currentDeviceType = document.body.className.match(
-            /device-(mobile|tablet|desktop)/
-          )?.[1];
+    document.addEventListener("DOMContentLoaded", function () {
+      // 如果启用了响应式分页，添加相应的CSS类
+      const responsiveEnabled = true; // ${siteConfig.pagination.responsive}
+      if (responsiveEnabled) {
+        const deviceType = getDeviceType();
+        document.body.classList.add(`device-${deviceType}`);
 
-          if (currentDeviceType !== newDeviceType) {
-            document.body.classList.remove(`device-${currentDeviceType}`);
-            document.body.classList.add(`device-${newDeviceType}`);
-          }
-        }, 250);
-      });
-    }
-  });
+        // 监听窗口大小变化
+        let resizeTimeout: any;
+        window.addEventListener("resize", function () {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(function () {
+            const newDeviceType = getDeviceType();
+            const currentDeviceType = document.body.className.match(
+              /device-(mobile|tablet|desktop)/
+            )?.[1];
+
+            if (currentDeviceType !== newDeviceType) {
+              document.body.classList.remove(`device-${currentDeviceType}`);
+              document.body.classList.add(`device-${newDeviceType}`);
+            }
+          }, 250);
+        });
+      }
+    });
+  }
 
   function getDeviceType() {
     if (typeof window === "undefined") return "desktop";

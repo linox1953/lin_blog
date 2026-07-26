@@ -1,5 +1,4 @@
 <script lang="ts">
-import QRCode from "qrcode";
 import { onMount } from "svelte";
 import Icon from "@/components/common/Icon.svelte";
 import I18nKey from "../../i18n/i18nKey";
@@ -112,7 +111,8 @@ async function generatePoster() {
 		const width = 425 * scale;
 		const padding = 24 * scale;
 
-		// 1. Prepare resources
+		// 1. Prepare resources — qrcode 动态导入，避免打包进初始 JS bundle
+		const QRCode = (await import("qrcode")).default;
 		const qrCodeUrl = await QRCode.toDataURL(url, {
 			margin: 1,
 			width: 100 * scale,
