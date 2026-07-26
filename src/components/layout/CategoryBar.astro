@@ -402,16 +402,37 @@ function initialActive(categoryName: string): {
     });
   });
 
-  // 在 Swup 导航时提前更新状态，避免切换期间激活态闪烁
-  function setupSwupEarlyUpdate() {
+  // 在 Swup 导航时同步分类信息
+  function setupSwupHooks() {
     if (!window.swup?.hooks) return;
+
+    // content:replace 在 DOM 替换前触发，此时可访问 fetched document
+    // Swup 只替换容器 innerHTML，不更新容器元素自身的属性，
+    // 因此从新文档中提取 data-current-post-category 并手动同步。
+    window.swup.hooks.on("content:replace", (visit: any) => {
+      const newDoc = visit.to.document;
+      if (!newDoc) return;
+      const newContainer = newDoc.querySelector<HTMLElement>("#swup-container");
+      if (!newContainer) return;
+      const newCategory = newContainer.getAttribute("data-current-post-category") || "";
+
+      const currentContainer = document.getElementById("swup-container");
+      if (currentContainer) {
+        currentContainer.setAttribute("data-current-post-category", newCategory);
+      }
+
+      const bar = document.getElementById("category-bar");
+      if (bar) {
+        bar.setAttribute("data-current-post-category", newCategory);
+      }
+    });
+
+    // visit:start 时提前更新列表页（首页/归档/分类/标签）的高亮，
+    // 文章页跳过（category 信息由 content:replace 保障）。
     window.swup.hooks.on("visit:start", (visit: any) => {
       const bar = document.getElementById("category-bar");
       if (!bar) return;
       const targetUrl = new URL(visit.to.url, window.location.href);
-      // 仅当目标状态可从 URL 直接确定时才提前更新（首页、归档、分类列表、标签筛选）。
-      // 导航到文章页时跳过，因为 postCategory 只有 DOM 替换后才可用，
-      // 提前更新会错误地清空旧高亮且无法设置新状态，导致闪烁。
       const { isHome, isArchive, isCategories, activeCategory, hasTag, hasUncategorized } =
         getCategoryBarState(bar, targetUrl);
       if (isHome || isArchive || isCategories || activeCategory || hasTag || hasUncategorized) {
@@ -420,8 +441,8 @@ function initialActive(categoryName: string): {
     });
   }
   if (window.swup?.hooks) {
-    setupSwupEarlyUpdate();
+    setupSwupHooks();
   } else {
-    document.addEventListener("swup:enable", setupSwupEarlyUpdate);
+    document.addEventListener("swup:enable", setupSwupHooks);
   }
 </script>
