@@ -71,7 +71,17 @@ export function computeTocItems(
 		}
 
 		// 空文本回退成 slug；去掉 rehypeAutolinkHeadings 追加的尾部 "#"
-		const text = (h.text || "").replace(/#+\s*$/, "").trim() || h.slug;
+		let text = (h.text || "").replace(/#+\s*$/, "").trim() || h.slug;
+		// 去掉行内 LaTeX 的 $ 包裹标记（如 "$A, B$" → "A, B"），避免目录中显示原始 $ 符号
+		text = text.replace(/\$([^$]+)\$/g, "$1");
+
+		// 清理 KaTeX 文本重复：KaTeX 会在标题中同时输出 .katex-mathml（语义）
+		// 和 .katex-html（视觉），textContent 拼接后产生如 "A,BA, BA,B" 的重复，
+		// 此处检测并折叠为 "A, B"
+		text = text.replace(
+			/([a-zA-Z])([,;:.\-+=*/<>])([a-zA-Z0-9])\1\2\s?\3\1\2\s?\3/g,
+			"$1$2 $3",
+		);
 
 		items.push({
 			headingId: h.slug,

@@ -63,7 +63,7 @@ export class TOCManager {
 	 */
 	private getCleanTextContent(element: HTMLElement): string {
 		const clone = element.cloneNode(true) as HTMLElement;
-		for (const el of clone.querySelectorAll("script, style")) {
+		for (const el of clone.querySelectorAll("script, style, .katex-mathml")) {
 			el.remove();
 		}
 		return clone.textContent || "";
