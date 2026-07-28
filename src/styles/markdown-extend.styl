@@ -277,23 +277,26 @@ a.card-github.fetch-error
 
 .mermaid-wrapper
   text-align: center
+  width: 100%
 
 .mermaid-svg-light,
 .mermaid-svg-dark
   display: flex
   justify-content: center
   align-items: center
-  overflow: hidden
+  width: 100%
 
   svg
     display: block
-    max-width: 100%
-    max-height: 420px
+    max-width: 90% !important
+    max-height: 600px
     height: auto
     border-radius: 0.5rem
     user-select: none
-    transition: transform 0.12s ease-out
-    will-change: transform
+
+// 暗色 SVG 用透明背景，依赖外层 .diagram-container 的 var(--card-bg)
+.mermaid-svg-dark svg
+  background-color: transparent !important
 
 // 深色/浅色 SVG 主题切换
 .mermaid-svg-dark
@@ -346,13 +349,11 @@ a.card-github.fetch-error
 
 .plantuml-image
   max-width: 100%
-  max-height: 420px
+  max-height: 600px
   height: auto
   display: block
   user-select: none
   -webkit-user-drag: none
-  transition: transform 0.12s ease-out
-  will-change: transform
 
 .plantuml-error
   color: var(--admonitions-color-warning)
@@ -388,7 +389,8 @@ a.card-github.fetch-error
     filter: brightness(0.95)
 
 @media (max-width: 768px)
-  .mermaid-svg svg
+  .mermaid-svg-light svg,
+  .mermaid-svg-dark svg
     max-height: 400px
 
   .plantuml-image
@@ -466,7 +468,6 @@ a.card-github.fetch-error
     max-height: 100%
     user-select: none
     -webkit-user-drag: none
-    will-change: transform
 
 .diagram-fs-controls
   position: fixed
